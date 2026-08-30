@@ -127,8 +127,8 @@
       <div class="field"><label>Tanggal Mulai *</label><input id="r_start" type="date" class="input" required></div>
       <div class="field"><label>Tanggal Akhir *</label><input id="r_end" type="date" class="input" required></div>
       <div class="field"><label>Pasien</label><select id="r_patient" class="select"><option value="">Semua Pasien</option></select></div>
-      <div class="field"><label>Jadwal HD</label><select id="p_jadwal" class="select" required>
-        <option value="">Pilih jadwal...</option>
+      <div class="field"><label>Jadwal HD</label><select id="r_schedule" class="select">
+        <option value="">Semua Jadwal</option>
         <option value="Senin dan Kamis">Senin dan Kamis</option>
         <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
         <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
@@ -170,22 +170,19 @@
 <!-- Patient Modal -->
 <div id="patientModal" class="modal"><div class="modal-card"><div class="modal-head"><b id="patientModalTitle">Tambah Pasien</b><button class="close" onclick="closeModal('patientModal')">×</button></div><div class="modal-body"><form onsubmit="submitPatient(event)"><input id="p_id" type="hidden"><div class="form-grid"><div class="field"><label>ID Pasien</label><input id="p_id_view" class="input" readonly value="Otomatis"></div><div class="field"><label>Nama Pasien *</label><input id="p_nama" class="input" required></div><div class="field"><label>NIK *</label><input id="p_nik" class="input" inputmode="numeric" maxlength="16" pattern="[0-9]{16}" required></div><div class="field"><label>Jenis Kelamin *</label><select id="p_jk" class="select" required><option value="">Pilih...</option><option>Laki-laki</option><option>Perempuan</option></select></div><div class="field"><label>Tanggal Lahir *</label><input id="p_lahir" type="date" class="input" required></div><div class="field"><label>No. HP *</label><input id="p_hp" class="input" inputmode="tel" required></div><div class="field fullcol"><label>Alamat *</label><textarea id="p_alamat" class="textarea" rows="2" required></textarea></div><div class="field">
 <label>Jadwal HD *</label>
-<select id="p_jadwal" class="select" required onchange="toggleManualSchedule()">
+<select id="p_jadwal" class="select" required>
 <option value="">Pilih jadwal...</option>
 <option value="Senin dan Kamis">Senin dan Kamis</option>
-        <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
-        <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
-        <option value="Setiap Senin">Setiap Senin</option>
-        <option value="Setiap Selasa">Setiap Selasa</option>
-        <option value="Setiap Rabu">Setiap Rabu</option>
-        <option value="Setiap Kamis">Setiap Kamis</option>
-        <option value="Setiap Jum'at">Setiap Jum'at</option>
-        <option value="Setiap Sabtu">Setiap Sabtu</option>
-        <option value="Setiap Minggu">Setiap Minggu</option>
+<option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
+<option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
+<option value="Setiap Senin">Setiap Senin</option>
+<option value="Setiap Selasa">Setiap Selasa</option>
+<option value="Setiap Rabu">Setiap Rabu</option>
+<option value="Setiap Kamis">Setiap Kamis</option>
+<option value="Setiap Jum'at">Setiap Jum'at</option>
+<option value="Setiap Sabtu">Setiap Sabtu</option>
+<option value="Setiap Minggu">Setiap Minggu</option>
 </select>
-<div id="manualScheduleWrap" class="manual-schedule hidden">
-<input id="p_jadwal_manual" class="input" placeholder="Ketik hari/jadwal secara manual, misalnya: Senin, Rabu dan Jumat">
-</div>
 </div><div class="field"><label>Status *</label><select id="p_status" class="select" required><option>Aktif</option><option>Tidak Aktif</option><option>Pindah</option><option>Meninggal</option></select></div><div class="field"><label>Tanggal Mulai HD *</label><input id="p_mulai" type="date" class="input" required></div></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button type="button" class="btn btn-secondary" onclick="closeModal('patientModal')">Batal</button><button class="btn btn-primary">Simpan Pasien</button></div></form></div></div></div>
 <!-- HD Modal -->
 <div id="hdModal" class="modal">
@@ -626,11 +623,37 @@ function openPatient(p) {
 
 async function submitPatient(e) {
   e.preventDefault();
-  const scheduleOption=$('p_jadwal').value, manual=$('p_jadwal_manual').value.trim();
-  if(!scheduleOption){toast('Jadwal HD wajib dipilih.');return;}
-  if(scheduleOption==='Hari Lainnya'&&!manual){toast('Jadwal Hari Lainnya wajib diisi.');$('p_jadwal_manual').focus();return;}
-  const data={id_pasien:$('p_id').value,nama_pasien:$('p_nama').value.trim(),nik:$('p_nik').value.trim(),jenis_kelamin:$('p_jk').value,tanggal_lahir:$('p_lahir').value,alamat:$('p_alamat').value.trim(),no_hp:$('p_hp').value.trim(),jadwal_hd:scheduleOption==='Hari Lainnya'?manual:scheduleOption,status:$('p_status').value,tanggal_mulai_hd:$('p_mulai').value};
-  try{const r=await server('savePatient',TOKEN,data);closeModal('patientModal');toast(r.message||'Pasien tersimpan.');await loadPatients();await loadDashboard();}catch(x){toast(x?.message||'Gagal menyimpan pasien.');}
+
+  const jadwalHd = $('p_jadwal').value;
+
+  if(!jadwalHd){
+    toast('Jadwal HD wajib dipilih.');
+    $('p_jadwal').focus();
+    return;
+  }
+
+  const data={
+    id_pasien:$('p_id').value,
+    nama_pasien:$('p_nama').value.trim(),
+    nik:$('p_nik').value.trim(),
+    jenis_kelamin:$('p_jk').value,
+    tanggal_lahir:$('p_lahir').value,
+    alamat:$('p_alamat').value.trim(),
+    no_hp:$('p_hp').value.trim(),
+    jadwal_hd:jadwalHd,
+    status:$('p_status').value,
+    tanggal_mulai_hd:$('p_mulai').value
+  };
+
+  try{
+    const r=await server('savePatient',TOKEN,data);
+    closeModal('patientModal');
+    toast(r.message||'Pasien tersimpan.');
+    await loadPatients();
+    await loadDashboard();
+  }catch(x){
+    toast(x?.message||'Gagal menyimpan pasien.');
+  }
 }
 
 function openHD(){
@@ -746,8 +769,38 @@ function togglePassword(id,btn){
   const show=el.type==='password'; el.type=show?'text':'password';
   if(btn){btn.textContent=show?'🙈':'👁';btn.setAttribute('aria-label',show?'Sembunyikan password':'Tampilkan password');btn.setAttribute('title',show?'Sembunyikan password':'Tampilkan password');}
 }
-function toggleManualSchedule(){const opt=$('p_jadwal')?.value,wrap=$('manualScheduleWrap'),manual=$('p_jadwal_manual');if(!wrap||!manual)return;const other=opt==='Hari Lainnya';wrap.classList.toggle('hidden',!other);manual.required=other;if(!other)manual.value='';}
-function setPatientSchedule(value){const fixed=['Senin dan Kamis',"Selasa dan Jum'at",'Rabu dan Sabtu'];const v=String(value||'');if(fixed.includes(v)){$('p_jadwal').value=v;$('p_jadwal_manual').value='';}else if(v){$('p_jadwal').value='Hari Lainnya';$('p_jadwal_manual').value=v;}else{$('p_jadwal').value='';$('p_jadwal_manual').value='';}toggleManualSchedule();}
+function toggleManualSchedule(){
+  // Jadwal HD sekarang seluruhnya dipilih dari dropdown.
+  // Fungsi dipertahankan agar kompatibel dengan kode lama.
+  const wrap=$('manualScheduleWrap');
+  const manual=$('p_jadwal_manual');
+
+  if(wrap) wrap.classList.add('hidden');
+  if(manual){
+    manual.required=false;
+    manual.value='';
+  }
+}
+
+function setPatientSchedule(value){
+  const schedules=[
+    'Senin dan Kamis',
+    "Selasa dan Jum'at",
+    'Rabu dan Sabtu',
+    'Setiap Senin',
+    'Setiap Selasa',
+    'Setiap Rabu',
+    'Setiap Kamis',
+    "Setiap Jum'at",
+    'Setiap Sabtu',
+    'Setiap Minggu'
+  ];
+
+  const v=String(value||'').trim();
+
+  $('p_jadwal').value=schedules.includes(v)?v:'';
+  toggleManualSchedule();
+}
 
 function openUser(u){
   if(ME?.role!=='admin'){toast('Hanya admin yang dapat mengelola user.');return;}
