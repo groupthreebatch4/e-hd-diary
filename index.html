@@ -145,7 +145,7 @@
 
 <div id="education" class="page">
   <div class="page-head"><div><h2>Edukasi</h2><p>Pilih materi edukasi. Poster akan langsung tampil di bawah menu.</p></div></div>
-  <div class="edu-hero"><div class="edu-hero-content"><span class="edu-kicker">📚 MATERI EDUKASI PASIEN HD</span><h3>Materi Edukasi Hemodialisis</h3><p>Materi disajikan dalam bentuk poster agar mudah dibaca, dibuka kembali, dan diunduh oleh pasien maupun keluarga.</p></div></div>
+  <div class="edu-hero"><div class="edu-hero-content"><span class="edu-kicker">📚 KUMPULAN EDUKASI PASIEN HD</span><h3>Materi Edukasi Hemodialisis</h3><p>Materi disajikan dalam bentuk poster agar mudah dibaca, dibuka kembali, dan diunduh oleh pasien maupun keluarga.</p></div></div>
   <div id="educationButtons" class="edu-tabs"></div>
   <div id="educationViewer" class="education-viewer"></div>
   <div class="edu-disclaimer"><b>Catatan:</b> Materi edukasi merupakan informasi pendukung dan tidak menggantikan instruksi dokter, perawat, ahli gizi, maupun tenaga kesehatan yang menangani pasien.</div>
@@ -160,10 +160,10 @@
 <label>Jadwal HD *</label>
 <select id="p_jadwal" class="select" required onchange="toggleManualSchedule()">
 <option value="">Pilih jadwal...</option>
-<option value="Senin dan Kamis">1. Senin dan Kamis</option>
-<option value="Selasa dan Jum'at">2. Selasa dan Jum'at</option>
-<option value="Rabu dan Sabtu">3. Rabu dan Sabtu</option>
-<option value="Hari Lainnya">4. Hari Lainnya</option>
+<option value="Senin dan Kamis">Senin dan Kamis</option>
+<option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
+<option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
+<option value="Hari Lainnya">Pilih Hari Lainnya</option>
 </select>
 <div id="manualScheduleWrap" class="manual-schedule hidden">
 <input id="p_jadwal_manual" class="input" placeholder="Ketik hari/jadwal secara manual, misalnya: Senin, Rabu dan Jumat">
@@ -329,8 +329,8 @@ const EDUCATION_POSTERS = [
   {title:'Pola Makan & Cairan', id:'1nsjS7m0ahYazDpZvFMprWC_diAxbm4Vf', desc:'Pola makan, natrium, kalium, fosfor, dan cairan.'},
   {title:'Motivasi & Kualitas Hidup', id:'1ixw8ZyQwQfO0vmxfuvpzP3ViIivCPTig', desc:'Tetap optimis dan menjaga kualitas hidup.'},
   {title:'Pursed Lip Breathing', id:'13KGWCA3NS1qYq3VwMqBDXN36RXl1TlBx', desc:'Latihan napas dengan bibir mengerucut.'},
-  {title:'Tata Cara Sholat Bagi Pasien HD', id:'18mdsfOd8lrEN8ZNUi5xrvPu9yQWZ5yUW', desc:'Edukasi Kelompok 2 • Tata Cara Sholat Bagi Pasien HD.'},
-  {title:'Edukasi Kelompok 4', id:'', desc:'Materi belum tersedia.'}
+  {title:'Tata Cara Sholat Pasien HD', id:'18mdsfOd8lrEN8ZNUi5xrvPu9yQWZ5yUW', desc:'Tata Cara Sholat Bagi Pasien HD.'},
+  {title:'Dukungan Keluarga', id:'1D76aKs0W0YKSvJOW4ORlAus4hmfOMxf6', desc:'Tetap Semangat Menjalani Hemodialisis dengan Dukungan Keluarga.'}
 ];
 
 const API_URL = 'https://script.google.com/macros/s/AKfycbyMimo_nvKzGXKrthCv-erGwzputCeRVrYTlAfa7WIQMZOvtQtqcC5m45MGuiXDMUfykg/exec';
