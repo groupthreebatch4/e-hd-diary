@@ -127,7 +127,19 @@
       <div class="field"><label>Tanggal Mulai *</label><input id="r_start" type="date" class="input" required></div>
       <div class="field"><label>Tanggal Akhir *</label><input id="r_end" type="date" class="input" required></div>
       <div class="field"><label>Pasien</label><select id="r_patient" class="select"><option value="">Semua Pasien</option></select></div>
-      <div class="field"><label>Jadwal HD</label><select id="r_schedule" class="select"><option value="">Semua Jadwal</option><option>Senin dan Kamis</option><option>Selasa dan Jum'at</option><option>Rabu dan Sabtu</option><option>Minggu</option><option>Hari Lainnya</option></select></div>
+      <div class="field"><label>Jadwal HD</label><select id="p_jadwal" class="select" required>
+        <option value="">Pilih jadwal...</option>
+        <option value="Senin dan Kamis">Senin dan Kamis</option>
+        <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
+        <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
+        <option value="Setiap Senin">Setiap Senin</option>
+        <option value="Setiap Selasa">Setiap Selasa</option>
+        <option value="Setiap Rabu">Setiap Rabu</option>
+        <option value="Setiap Kamis">Setiap Kamis</option>
+        <option value="Setiap Jum'at">Setiap Jum'at</option>
+        <option value="Setiap Sabtu">Setiap Sabtu</option>
+        <option value="Setiap Minggu">Setiap Minggu</option>
+        </select></div>
     </div>
     <div class="report-actions">
       <button class="btn btn-primary" onclick="generateReport()">🔍 Tampilkan Laporan</button>
@@ -161,9 +173,15 @@
 <select id="p_jadwal" class="select" required onchange="toggleManualSchedule()">
 <option value="">Pilih jadwal...</option>
 <option value="Senin dan Kamis">Senin dan Kamis</option>
-<option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
-<option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
-<option value="Hari Lainnya">Pilih Hari Lainnya</option>
+        <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
+        <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
+        <option value="Setiap Senin">Setiap Senin</option>
+        <option value="Setiap Selasa">Setiap Selasa</option>
+        <option value="Setiap Rabu">Setiap Rabu</option>
+        <option value="Setiap Kamis">Setiap Kamis</option>
+        <option value="Setiap Jum'at">Setiap Jum'at</option>
+        <option value="Setiap Sabtu">Setiap Sabtu</option>
+        <option value="Setiap Minggu">Setiap Minggu</option>
 </select>
 <div id="manualScheduleWrap" class="manual-schedule hidden">
 <input id="p_jadwal_manual" class="input" placeholder="Ketik hari/jadwal secara manual, misalnya: Senin, Rabu dan Jumat">
