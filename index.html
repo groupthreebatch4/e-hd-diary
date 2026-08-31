@@ -516,8 +516,46 @@ function renderDashboardChart(rows) {
 }
 
 function renderScheduleSummary(rows) {
-  const total=(rows||[]).reduce((a,b)=>a+Number(b.count||0),0);
-  $('scheduleSummary').innerHTML=(rows||[]).map(x=>`<div class="schedule-row"><div class="schedule-day"><span class="schedule-dot"></span><b>${esc(x.day)}</b></div><div class="schedule-count">${x.count}<span> pasien</span></div></div>`).join('')+`<div class="schedule-total"><span>Total pasien aktif</span><b>${total}</b></div>`;
+
+  const data = Array.isArray(rows)
+    ? rows
+    : [];
+
+  const total = data.reduce(function(total, item) {
+    return total + Number(item.count || 0);
+  }, 0);
+
+  if (!data.length) {
+    $('scheduleSummary').innerHTML =
+      '<div class="empty">Belum ada data jadwal HD.</div>';
+    return;
+  }
+
+  $('scheduleSummary').innerHTML =
+    data.map(function(item) {
+
+      return `
+        <div class="schedule-row">
+          <div class="schedule-day">
+            <span class="schedule-dot"></span>
+            <b>${esc(item.day || '-')}</b>
+          </div>
+
+          <div class="schedule-count">
+            <strong>${Number(item.count || 0)}</strong>
+            <span> pasien</span>
+          </div>
+        </div>
+      `;
+
+    }).join('')
+
+    + `
+      <div class="schedule-total">
+        <span>Total pasien aktif</span>
+        <b>${total}</b>
+      </div>
+    `;
 }
 
 async function loadPatients() {
