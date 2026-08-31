@@ -551,7 +551,20 @@
       <div class="field"><label>Tanggal Mulai *</label><input id="r_start" type="date" class="input" required></div>
       <div class="field"><label>Tanggal Akhir *</label><input id="r_end" type="date" class="input" required></div>
       <div class="field"><label>Pasien</label><select id="r_patient" class="select"><option value="">Semua Pasien</option></select></div>
-      <div class="field"><label>Jadwal HD</label><select id="r_schedule" class="select"><option value="">Semua Jadwal</option><option>Senin dan Kamis</option><option>Selasa dan Jum'at</option><option>Rabu dan Sabtu</option><option>Minggu</option><option>Hari Lainnya</option></select></div>
+      <div class="field"><label>Jadwal HD</label>
+         <select id="r_schedule" class="select">
+           <option value="">Semua Jadwal</option>
+           <option value="Senin dan Kamis">Senin dan Kamis</option>
+           <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
+           <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
+           <option value="Setiap Senin">Setiap Senin</option>
+           <option value="Setiap Selasa">Setiap Selasa</option>
+           <option value="Setiap Rabu">Setiap Rabu</option>
+           <option value="Setiap Kamis">Setiap Kamis</option>
+           <option value="Setiap Jum'at">Setiap Jum'at</option>
+           <option value="Setiap Sabtu">Setiap Sabtu</option>
+           <option value="Setiap Minggu">Setiap Minggu</option>
+         </select></div>
     </div>
     <div class="report-actions">
       <button class="btn btn-primary" onclick="generateReport()">🔍 Tampilkan Laporan</button>
@@ -582,12 +595,18 @@
 <!-- Patient Modal -->
 <div id="patientModal" class="modal"><div class="modal-card"><div class="modal-head"><b id="patientModalTitle">Tambah Pasien</b><button class="close" onclick="closeModal('patientModal')">×</button></div><div class="modal-body"><form onsubmit="submitPatient(event)"><input id="p_id" type="hidden"><div class="form-grid"><div class="field"><label>ID Pasien</label><input id="p_id_view" class="input" readonly value="Otomatis"></div><div class="field"><label>Nama Pasien *</label><input id="p_nama" class="input" required></div><div class="field"><label>NIK *</label><input id="p_nik" class="input" inputmode="numeric" maxlength="16" pattern="[0-9]{16}" required></div><div class="field"><label>Jenis Kelamin *</label><select id="p_jk" class="select" required><option value="">Pilih...</option><option>Laki-laki</option><option>Perempuan</option></select></div><div class="field"><label>Tanggal Lahir *</label><input id="p_lahir" type="date" class="input" required></div><div class="field"><label>No. HP *</label><input id="p_hp" class="input" inputmode="tel" required></div><div class="field fullcol"><label>Alamat *</label><textarea id="p_alamat" class="textarea" rows="2" required></textarea></div><div class="field">
 <label>Jadwal HD *</label>
-<select id="p_jadwal" class="select" required onchange="toggleManualSchedule()">
-<option value="">Pilih jadwal...</option>
-<option value="Senin dan Kamis">1. Senin dan Kamis</option>
-<option value="Selasa dan Jum'at">2. Selasa dan Jum'at</option>
-<option value="Rabu dan Sabtu">3. Rabu dan Sabtu</option>
-<option value="Hari Lainnya">4. Hari Lainnya</option>
+<select id="p_jadwal" class="select" required>
+  <option value="">Pilih jadwal...</option>
+  <option value="Senin dan Kamis">Senin dan Kamis</option>
+  <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
+  <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
+  <option value="Setiap Senin">Setiap Senin</option>
+  <option value="Setiap Selasa">Setiap Selasa</option>
+  <option value="Setiap Rabu">Setiap Rabu</option>
+  <option value="Setiap Kamis">Setiap Kamis</option>
+  <option value="Setiap Jum'at">Setiap Jum'at</option>
+  <option value="Setiap Sabtu">Setiap Sabtu</option>
+  <option value="Setiap Minggu">Setiap Minggu</option>
 </select>
 <div id="manualScheduleWrap" class="manual-schedule hidden">
 <input id="p_jadwal_manual" class="input" placeholder="Ketik hari/jadwal secara manual, misalnya: Senin, Rabu dan Jumat">
