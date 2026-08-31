@@ -267,18 +267,48 @@ const EDUCATION_POSTERS = [
   {title:'Edukasi Kelompok 4', id:'', desc:'Materi belum tersedia.'}
 ];
 
-function server(fn, ...args) {
-  return new Promise((resolve, reject) => {
-    if (!window.google || !google.script || !google.script.run) {
-      reject(new Error('Aplikasi harus dijalankan melalui Google Apps Script Web App.'));
-      return;
-    }
+/* =========================================================
+ * KONEKSI API
+ * GitHub Pages -> Google Apps Script Web App
+ * ========================================================= */
+const API_URL = 'https://script.google.com/macros/s/AKfycbyMimo_nvKzGXKrthCv-erGwzputCeRVrYTlAfa7WIQMZOvtQtqcC5m45MGuiXDMUfykg/exec';
+
+async function server(fn, ...args) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: new URLSearchParams({
+        payload: JSON.stringify({
+          fn: fn,
+          args: args
+        })
+      })
+    });
+
+    const text = await response.text();
+
+    let result;
     try {
-      google.script.run
-        .withSuccessHandler(resolve)
-        .withFailureHandler(reject)[fn](...args);
-    } catch (e) { reject(e); }
-  });
+      result = JSON.parse(text);
+    } catch (parseError) {
+      throw new Error(
+        'Respons server bukan JSON. Pastikan deployment Google Apps Script sudah menggunakan versi terbaru.'
+      );
+    }
+
+    if (result && result.ok === false) {
+      throw new Error(result.message || 'Permintaan ke server gagal.');
+    }
+
+    return result;
+  } catch (e) {
+    console.error('API error:', e);
+    throw new Error(
+      e && e.message
+        ? e.message
+        : 'Tidak dapat terhubung ke server e-HD DIARY.'
+    );
+  }
 }
 
 async function doLogin(e) {
