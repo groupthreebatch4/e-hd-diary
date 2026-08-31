@@ -171,46 +171,204 @@
 
 
 /* =========================================================
-   BATANG GRAFIK - HIJAU CERAH
+   GRAFIK SESI HD - BAR CHART
    ========================================================= */
 
-.session-bar {
+.session-chart {
   width: 100%;
+  height: 300px;
 
-  max-width: 24px;
+  display: flex;
 
-  min-height: 2px;
+  position: relative;
 
-  border-radius: 6px 6px 0 0;
+  box-sizing: border-box;
 
-  /* Gradient hijau cerah */
-  background: linear-gradient(
-    to top,
-    #16A34A 0%,
-    #22C55E 50%,
-    #4ADE80 100%
-  );
+  padding: 10px 20px 0 55px;
 
-  /* Efek bayangan */
-  box-shadow:
-    0 3px 8px rgba(22, 163, 74, 0.25);
-
-  transition:
-    transform 0.18s ease,
-    opacity 0.18s ease,
-    box-shadow 0.18s ease;
+  background: #ffffff;
 }
 
 
-/* Efek ketika mouse diarahkan */
+/* =========================================================
+   AREA SUMBU Y
+   ========================================================= */
+
+.session-chart-yaxis {
+
+  position: absolute;
+
+  left: 0;
+  top: 10px;
+  bottom: 35px;
+
+  width: 48px;
+
+  pointer-events: none;
+}
+
+
+/* Garis grid */
+
+.session-grid-line {
+
+  position: absolute;
+
+  left: 48px;
+  right: 0;
+
+  border-top: 1px dashed #d7eadf;
+
+  height: 1px;
+}
+
+
+/* Angka sumbu Y */
+
+.session-y-label {
+
+  position: absolute;
+
+  right: 8px;
+
+  top: -7px;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  color: #64748b;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   AREA PLOT
+   ========================================================= */
+
+.session-chart-plot {
+
+  width: 100%;
+
+  height: 255px;
+
+  position: relative;
+
+  border-bottom: 2px solid #cbd5e1;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   KUMPULAN BATANG
+   ========================================================= */
+
+.session-chart-bars {
+
+  width: 100%;
+
+  height: 100%;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 4px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ITEM BATANG
+   ========================================================= */
+
+.session-bar-item {
+
+  flex: 1;
+
+  min-width: 8px;
+
+  height: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  position: relative;
+}
+
+
+/* =========================================================
+   WRAPPER BATANG
+   ========================================================= */
+
+.session-bar-wrapper {
+
+  width: 100%;
+
+  height: calc(100% - 24px);
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: center;
+
+  position: relative;
+}
+
+
+/* =========================================================
+   BATANG HIJAU CERAH
+   ========================================================= */
+
+.session-bar {
+
+  width: 65%;
+
+  max-width: 26px;
+
+  min-width: 6px;
+
+  background: linear-gradient(
+    to top,
+    #16a34a,
+    #22c55e,
+    #4ade80
+  );
+
+  border-radius: 5px 5px 0 0;
+
+  box-shadow:
+    0 3px 7px rgba(
+      22,
+      163,
+      74,
+      0.22
+    );
+
+  transition:
+    transform .18s ease,
+    opacity .18s ease;
+}
+
+
+/* Hover */
+
 .session-bar-item:hover .session-bar {
 
   transform: translateY(-4px);
 
-  opacity: 0.90;
-
-  box-shadow:
-    0 6px 14px rgba(22, 163, 74, 0.35);
+  opacity: .85;
 }
 
 
@@ -222,6 +380,10 @@
 
   position: absolute;
 
+  bottom: calc(
+    var(--bar-height, 0px) + 3px
+  );
+
   font-size: 9px;
 
   font-weight: 700;
@@ -229,22 +391,18 @@
   color: #166534;
 
   white-space: nowrap;
-
-  transform: translateY(-2px);
-
-  pointer-events: none;
 }
 
 
 /* =========================================================
-   LABEL TANGGAL
+   TANGGAL
    ========================================================= */
 
 .session-bar-label {
 
   height: 24px;
 
-  padding-top: 6px;
+  padding-top: 7px;
 
   font-size: 9px;
 
@@ -252,199 +410,64 @@
 
   color: #64748b;
 
+  text-align: center;
+
   white-space: nowrap;
+}
+
+
+/* =========================================================
+   KETERANGAN
+   ========================================================= */
+
+.session-chart-caption {
 
   text-align: center;
+
+  margin-top: -3px;
+
+  font-size: 10px;
+
+  color: #64748b;
 }
 
 
 /* =========================================================
-   GARIS DASAR GRAFIK
-   ========================================================= */
-
-.session-chart-axis {
-
-  height: 1px;
-
-  background: transparent;
-}
-
-
-/* =========================================================
-   TOOLTIP / INFORMASI SAAT HOVER
-   ========================================================= */
-
-.session-bar-item[title] {
-  cursor: help;
-}
-
-
-/* =========================================================
-   TANGGAL AKHIR / PERTAMA
-   ========================================================= */
-
-.session-bar-item:first-child .session-bar-label,
-.session-bar-item:last-child .session-bar-label {
-
-  font-weight: 700;
-
-  color: #475569;
-}
-
-
-/* =========================================================
-   KONDISI NILAI 0
-   ========================================================= */
-
-.session-bar[style*="height:2px"] {
-
-  opacity: 0.35;
-
-  background: #bbf7d0;
-
-  box-shadow: none;
-}
-
-
-/* =========================================================
-   RESPONSIVE - TABLET
-   ========================================================= */
-
-@media (max-width: 1100px) {
-
-  .session-chart-area {
-
-    min-width: 720px;
-
-  }
-
-  .session-bar-item {
-
-    min-width: 17px;
-
-  }
-
-  .session-bar {
-
-    max-width: 22px;
-
-  }
-
-}
-
-
-/* =========================================================
-   RESPONSIVE - HP
+   RESPONSIVE
    ========================================================= */
 
 @media (max-width: 768px) {
 
-  .session-chart-scroll {
-
-    padding-left: 4px;
-    padding-right: 4px;
-
-  }
-
-  .session-chart-area {
+  .session-chart {
 
     min-width: 680px;
 
-    height: 280px;
+    height: 290px;
 
-    padding-left: 52px;
-
+    padding-left: 50px;
+    padding-right: 10px;
   }
 
-  .session-chart-bars {
+  .session-chart-plot {
 
-    height: 225px;
-
-    gap: 4px;
-
-  }
-
-  .session-bar-item {
-
-    height: 225px;
-
-    min-width: 16px;
-
+    height: 245px;
   }
 
   .session-bar {
+
+    width: 70%;
 
     max-width: 20px;
-
-    border-radius: 5px 5px 0 0;
-
   }
 
   .session-bar-value {
 
     font-size: 8px;
-
   }
 
   .session-bar-label {
 
     font-size: 8px;
-
-  }
-
-  .session-chart-ytitle {
-
-    left: 5px;
-
-    top: 125px;
-
-    font-size: 9px;
-
-  }
-
-}
-
-
-/* =========================================================
-   RESPONSIVE - HP KECIL
-   ========================================================= */
-
-@media (max-width: 480px) {
-
-  .session-chart-area {
-
-    min-width: 650px;
-
-  }
-
-  .session-chart-bars {
-
-    gap: 3px;
-
-  }
-
-  .session-bar-item {
-
-    min-width: 15px;
-
-  }
-
-  .session-bar {
-
-    max-width: 18px;
-
-  }
-
-  .session-bar-value {
-
-    font-size: 8px;
-
-  }
-
-  .session-bar-label {
-
-    font-size: 8px;
-
   }
 
 }
@@ -873,24 +896,78 @@ function renderSessionMonthChart(rows) {
     return;
   }
 
-  const maxValue = Math.max(
-    1,
-    ...data.map(function(x) {
-      return Number(x.count || 0);
-    })
-  );
+  /* =====================================================
+     DATA
+     ===================================================== */
+
+  const values = data.map(function(item) {
+    return Number(item.count || 0);
+  });
+
+  const actualMax = Math.max(...values, 1);
+
+  /* Bulatkan skala maksimum agar grafik rapi */
+  const maxValue = Math.ceil(actualMax / 5) * 5;
+
+  /* Interval sumbu Y */
+  const step = maxValue <= 20 ? 5 : 10;
+
+  const yTicks = [];
+
+  for (let i = 0; i <= maxValue; i += step) {
+    yTicks.push(i);
+  }
+
+  /* =====================================================
+     GARIS / GRID Y
+     ===================================================== */
+
+  const gridLines = yTicks.map(function(value) {
+
+    const bottom =
+      (value / maxValue) * 100;
+
+    return `
+      <div
+        class="session-grid-line"
+        style="bottom:${bottom}%"
+      >
+        <span class="session-y-label">
+          ${value}
+        </span>
+      </div>
+    `;
+
+  }).join('');
+
+
+  /* =====================================================
+     BATANG
+     ===================================================== */
 
   const bars = data.map(function(item, index) {
+
     const value = Number(item.count || 0);
 
-    const height = value > 0
-      ? Math.max(4, Math.round((value / maxValue) * 190))
-      : 2;
+    const height =
+      value > 0
+        ? Math.max(
+            3,
+            (value / maxValue) * 100
+          )
+        : 0;
 
-    const showLabel =
+    /*
+      Tampilkan label tanggal:
+      - tanggal pertama
+      - tanggal terakhir
+      - setiap 5 hari
+    */
+
+    const showDate =
       index === 0 ||
       index === data.length - 1 ||
-      index % (data.length > 20 ? 3 : 1) === 0;
+      index % 5 === 0;
 
     const dateLabel = esc(
       item.label ||
@@ -907,42 +984,66 @@ function renderSessionMonthChart(rows) {
     );
 
     return `
-      <div class="session-bar-item"
-           title="${tooltipDate}: ${value} sesi HD">
+      <div
+        class="session-bar-item"
+        title="${tooltipDate} — ${value} sesi HD"
+      >
 
-        <div class="session-bar-value">
-          ${value}
-        </div>
+        <div class="session-bar-wrapper">
 
-        <div class="session-bar"
-             style="height:${height}px"
-             aria-label="${tooltipDate}: ${value} sesi HD">
+          ${
+            value > 0
+              ? `<div class="session-bar-value">${value}</div>`
+              : ''
+          }
+
+          <div
+            class="session-bar"
+            style="height:${height}%"
+          ></div>
+
         </div>
 
         <div class="session-bar-label">
-          ${showLabel ? dateLabel : ''}
+          ${showDate ? dateLabel : ''}
         </div>
 
       </div>
     `;
+
   }).join('');
 
-  box.innerHTML = `
-    <div class="session-chart-scroll">
 
-      <div class="session-chart-ytitle">
-        Jumlah Sesi
+  /* =====================================================
+     HTML GRAFIK
+     ===================================================== */
+
+  box.innerHTML = `
+
+    <div class="session-chart">
+
+      <div class="session-chart-yaxis">
+
+        ${gridLines}
+
       </div>
 
-      <div class="session-chart-area">
+      <div class="session-chart-plot">
 
         <div class="session-chart-bars">
+
           ${bars}
+
         </div>
 
       </div>
 
     </div>
+
+    <div class="session-chart-caption">
+      Jumlah sesi hemodialisis per hari
+    </div>
+
   `;
 }
 
