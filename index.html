@@ -443,7 +443,12 @@ async function loadDashboard() {
   $('stAktif').textContent = s.pasienAktif || 0;
   $('stToday').textContent = s.jadwalHariIni || 0;
   $('stPostIncomplete').textContent = s.postBelumLengkap || 0;
-  $('recentHD').innerHTML = tableHD(r?.recentHD || [], true);
+
+  // Simpan sesi terbaru ke HISTORY agar tombol "Lengkapi Post"
+  // pada Dashboard dapat menemukan baris berdasarkan id_hd.
+  HISTORY = Array.isArray(r?.recentHD) ? r.recentHD : [];
+  $('recentHD').innerHTML = tableHD(HISTORY, true);
+
   renderSessionMonthChart(r?.sessionDaily || []);
   renderScheduleSummary(r?.scheduleSummary || []);
 }
@@ -560,7 +565,10 @@ function openHD(){
 
 function openHDPost(idHD){
   const row=(HISTORY||[]).find(x=>String(x.id_hd)===String(idHD));
-  if(!row){toast('Sesi HD tidak ditemukan.');return;}
+  if(!row){
+    toast('Sesi HD tidak ditemukan. Muat ulang Dashboard lalu coba lagi.');
+    return;
+  }
   const patient=String(ME?.role||'').trim().toLowerCase()==='pasien';
   $('h_mode').value='post';
   $('h_idhd').value=row.id_hd||'';
