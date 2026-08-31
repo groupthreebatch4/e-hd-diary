@@ -638,7 +638,9 @@ function tableHD(rows,dashboard){
   if(!rows?.length)return'<div class="empty">Belum ada data HD.</div>';
   return`<table class="table"><thead><tr><th>Tanggal</th><th>ID Pasien</th><th>Nama</th><th>BB Pre</th><th>TD Pre</th><th>Nadi Pre</th><th>BB Post</th><th>TD Post</th><th>Nadi Post</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${rows.map(x=>{
     const complete=x.bb_post&&x.td_post&&x.nadi_post;
-    const action=complete?'<span class="badge badge-success">Selesai</span>':(!dashboard?`<button class="btn btn-primary btn-small" type="button" onclick="openHDPost('${esc(x.id_hd)}')">Lengkapi POST</button>`:'<span class="badge badge-warning">Menunggu POST</span>');
+    const action=complete
+      ? '<span class="badge badge-success">Selesai</span>'
+      : `<button class="btn btn-primary btn-small" type="button" onclick="openHDPost('${esc(x.id_hd)}')">Lengkapi Post</button>`;
     return`<tr><td>${fmt(x.tanggal_hd)}</td><td>${esc(x.id_pasien)}</td><td>${esc(x.nama_pasien||patientName(x.id_pasien))}</td><td>${esc(x.bb_pre||'-')}</td><td>${esc(x.td_pre||'-')}</td><td>${esc(x.nadi_pre||'-')}</td><td>${esc(x.bb_post||'-')}</td><td>${esc(x.td_post||'-')}</td><td>${esc(x.nadi_post||'-')}</td><td>${complete?'<span class="badge badge-success">Lengkap</span>':'<span class="badge badge-warning">Menunggu POST</span>'}</td><td>${action}</td></tr>`;
   }).join('')}</tbody></table>`;
 }
