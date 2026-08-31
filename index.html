@@ -108,6 +108,12 @@
           <div class="stat"><div class="ico">📅</div><b id="stToday">0</b><span>Jadwal HD Hari Ini</span><div class="link">Pasien yang dijadwalkan hari ini</div></div>
           <div class="stat stat-alert"><div class="ico">📋</div><b id="stPostIncomplete">0</b><span>POST HD Belum Lengkap</span><div class="link">Sesi yang perlu dilengkapi</div></div>
         </div>
+        <div class="panel no-print" style="margin-bottom:18px">
+          <div class="panel-body" style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap">
+            <div><b style="font-size:14px">Input Data Hemodialisis</b><div style="font-size:11px;color:#71839a;margin-top:4px">Masukkan data PRE HD sebelum terapi dan lengkapi POST HD setelah terapi selesai.</div></div>
+            <button class="btn btn-primary" onclick="openHD()">＋ Input Sesi HD</button>
+          </div>
+        </div>
         <div class="dashboard-grid dashboard-middle">
           <div class="panel">
             <div class="panel-head"><b>GRAFIK JUMLAH SESI HD PER HARI (1 BULAN TERAKHIR)</b><span id="sessionChartPeriod" style="font-size:11px;color:#64748b">-</span></div>
@@ -119,7 +125,7 @@
           </div>
         </div>
         <div class="panel activity-full">
-          <div class="panel-head"><b>AKTIVITAS HEMODIALISIS TERBARU</b><button class="btn btn-secondary no-print" onclick="showPage('history')">Lihat semua →</button></div>
+          <div class="panel-head"><b>AKTIVITAS HEMODIALISIS TERBARU</b><div class="actions no-print"><button class="btn btn-primary" onclick="openHD()">＋ Input Data HD</button><button class="btn btn-secondary" onclick="showPage('history')">Lihat semua →</button></div></div>
           <div class="table-wrap" id="recentHD"></div>
         </div>
       </div>
