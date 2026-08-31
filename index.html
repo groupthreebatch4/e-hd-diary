@@ -1112,13 +1112,42 @@ function openPatient(p) {
   $('p_id').value=p?.id_pasien||''; $('p_id_view').value=p?.id_pasien||'Otomatis'; $('p_nama').value=p?.nama_pasien||''; $('p_nik').value=p?.nik||''; $('p_jk').value=p?.jenis_kelamin||''; $('p_lahir').value=toInputDate(p?.tanggal_lahir)||''; $('p_hp').value=p?.no_hp||''; $('p_alamat').value=p?.alamat||''; setPatientSchedule(p?.jadwal_hd||''); $('p_status').value=p?.status||'Aktif'; $('p_mulai').value=toInputDate(p?.tanggal_mulai_hd)||''; $('patientModal').classList.add('show');
 }
 
-async function submitPatient(e) {
+async function submitPatient(e){
   e.preventDefault();
-  const scheduleOption=$('p_jadwal').value, manual=$('p_jadwal_manual').value.trim();
-  if(!scheduleOption){toast('Jadwal HD wajib dipilih.');return;}
-  if(scheduleOption==='Hari Lainnya'&&!manual){toast('Jadwal Hari Lainnya wajib diisi.');$('p_jadwal_manual').focus();return;}
-  const data={id_pasien:$('p_id').value,nama_pasien:$('p_nama').value.trim(),nik:$('p_nik').value.trim(),jenis_kelamin:$('p_jk').value,tanggal_lahir:$('p_lahir').value,alamat:$('p_alamat').value.trim(),no_hp:$('p_hp').value.trim(),jadwal_hd:scheduleOption==='Hari Lainnya'?manual:scheduleOption,status:$('p_status').value,tanggal_mulai_hd:$('p_mulai').value};
-  try{const r=await server('savePatient',TOKEN,data);closeModal('patientModal');toast(r.message||'Pasien tersimpan.');await loadPatients();await loadDashboard();}catch(x){toast(x?.message||'Gagal menyimpan pasien.');}
+
+  const jadwalHd = $('p_jadwal').value;
+
+  if(!jadwalHd){
+    toast('Jadwal HD wajib dipilih.');
+    $('p_jadwal').focus();
+    return;
+  }
+
+  const data = {
+    id_pasien: $('p_id').value,
+    nama_pasien: $('p_nama').value.trim(),
+    nik: $('p_nik').value.trim(),
+    jenis_kelamin: $('p_jk').value,
+    tanggal_lahir: $('p_lahir').value,
+    alamat: $('p_alamat').value.trim(),
+    no_hp: $('p_hp').value.trim(),
+    jadwal_hd: jadwalHd,
+    status: $('p_status').value,
+    tanggal_mulai_hd: $('p_mulai').value
+  };
+
+  try{
+    const r = await server('savePatient', TOKEN, data);
+
+    closeModal('patientModal');
+
+    toast(r.message || 'Data pasien berhasil disimpan.');
+
+    await loadAll();
+
+  }catch(x){
+    toast(x.message || 'Gagal menyimpan data pasien.');
+  }
 }
 
   function formatBP(input) {
@@ -1134,6 +1163,7 @@ async function submitPatient(e) {
 
   input.value = value;
 }
+
 function resetHDForm(){
   ['h_idhd','h_bbpre','h_tdpre','h_nadipre','h_bbpost','h_tdpost','h_nadipost'].forEach(id=>{if($(id))$(id).value='';});
   $('h_mode').value='pre';
@@ -1356,7 +1386,47 @@ function togglePassword(id,btn){
   const show=el.type==='password'; el.type=show?'text':'password';
   if(btn){btn.textContent=show?'🙈':'👁';btn.setAttribute('aria-label',show?'Sembunyikan password':'Tampilkan password');btn.setAttribute('title',show?'Sembunyikan password':'Tampilkan password');}
 }
-function toggleManualSchedule(){const opt=$('p_jadwal')?.value,wrap=$('manualScheduleWrap'),manual=$('p_jadwal_manual');if(!wrap||!manual)return;const other=opt==='Hari Lainnya';wrap.classList.toggle('hidden',!other);manual.required=other;if(!other)manual.value='';}
+
+function toggleManualSchedule(){
+  const wrap = $('manualScheduleWrap');
+  const manual = $('p_jadwal_manual');
+
+  if(wrap){
+    wrap.classList.add('hidden');
+  }
+
+  if(manual){
+    manual.required = false;
+    manual.value = '';
+  }
+}
+
+
+function setPatientSchedule(value){
+  const schedules = [
+    'Senin dan Kamis',
+    "Selasa dan Jum'at",
+    'Rabu dan Sabtu',
+    'Setiap Senin',
+    'Setiap Selasa',
+    'Setiap Rabu',
+    'Setiap Kamis',
+    "Setiap Jum'at",
+    'Setiap Sabtu',
+    'Setiap Minggu'
+  ];
+
+  const v = String(value || '').trim();
+
+  if(schedules.includes(v)){
+    $('p_jadwal').value = v;
+  }else{
+    $('p_jadwal').value = '';
+  }
+
+  toggleManualSchedule();
+}
+
 function setPatientSchedule(value){const fixed=['Senin dan Kamis',"Selasa dan Jum'at",'Rabu dan Sabtu'];const v=String(value||'');if(fixed.includes(v)){$('p_jadwal').value=v;$('p_jadwal_manual').value='';}else if(v){$('p_jadwal').value='Hari Lainnya';$('p_jadwal_manual').value=v;}else{$('p_jadwal').value='';$('p_jadwal_manual').value='';}toggleManualSchedule();}
 
 function openUser(u){
