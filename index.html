@@ -1330,6 +1330,7 @@ function resetHDForm() {
     }
   });
 }
+
 function openHD(){
   resetHDForm();
   const patient=String(ME?.role||'').trim().toLowerCase()==='pasien';
@@ -1391,7 +1392,193 @@ function openHDPost(idHD){
   note.style.display='block';
   $('hdModal').classList.add('show');
 }
+async function openHDPost(idHD, idPasien) {
 
+  try {
+
+    // Cari dulu di HISTORY yang sudah ada
+    let row = (HISTORY || []).find(function(x) {
+      return String(x.id_hd) === String(idHD);
+    });
+
+    // Jika belum ditemukan, ambil riwayat pasien dari server
+    if (!row && idPasien) {
+
+      const r = await server(
+        'getHDHistory',
+        TOKEN,
+        idPasien
+      );
+
+      if (r && r.ok) {
+
+        HISTORY = r.data || [];
+
+        row = HISTORY.find(function(x) {
+          return String(x.id_hd) === String(idHD);
+        });
+
+      }
+    }
+
+    // Jika tetap tidak ditemukan
+    if (!row) {
+      toast(
+        'Sesi HD tidak ditemukan. Silakan muat ulang data terlebih dahulu.'
+      );
+      return;
+    }
+
+    // ==============================
+    // MODE POST HD
+    // ==============================
+
+    $('h_mode').value = 'post';
+
+    $('h_idhd').value = row.id_hd || '';
+
+    $('h_tanggal').value =
+      toDateInputValue(row.tanggal_hd);
+
+    $('h_tanggal').max =
+      localDateInput();
+
+    // ==============================
+    // PASIEN
+    // ==============================
+
+    const pasienSelect = $('h_pasien');
+
+    const patient =
+      String(ME?.role || '')
+        .trim()
+        .toLowerCase() === 'pasien';
+
+    if (patient) {
+
+      pasienSelect.innerHTML =
+        `<option value="${esc(row.id_pasien)}">
+          ${esc(row.id_pasien)}
+          — 
+          ${esc(
+            row.nama_pasien ||
+            patientName(row.id_pasien)
+          )}
+        </option>`;
+
+      pasienSelect.value = row.id_pasien;
+
+      pasienSelect.disabled = true;
+
+    } else {
+
+      fillPatientSelects();
+
+      pasienSelect.value =
+        row.id_pasien || '';
+
+      pasienSelect.disabled = true;
+    }
+
+    // ==============================
+    // DATA PRE HD
+    // ==============================
+
+    $('h_bbpre').value =
+      row.bb_pre ?? '';
+
+    $('h_tdpre').value =
+      row.td_pre ?? '';
+
+    $('h_nadipre').value =
+      row.nadi_pre ?? '';
+
+    // ==============================
+    // DATA POST HD
+    // ==============================
+
+    $('h_bbpost').value =
+      row.bb_post ?? '';
+
+    $('h_tdpost').value =
+      row.td_post ?? '';
+
+    $('h_nadipost').value =
+      row.nadi_post ?? '';
+
+    // ==============================
+    // TAMPILKAN PRE + POST
+    // ==============================
+
+    $('preSection').style.display =
+      'block';
+
+    $('postSection').style.display =
+      'block';
+
+    // PRE hanya untuk informasi
+    [
+      'h_bbpre',
+      'h_tdpre',
+      'h_nadipre'
+    ].forEach(function(id) {
+
+      if ($(id)) {
+        $(id).required = false;
+        $(id).disabled = true;
+      }
+
+    });
+
+    // POST yang harus diisi
+    [
+      'h_bbpost',
+      'h_tdpost',
+      'h_nadipost'
+    ].forEach(function(id) {
+
+      if ($(id)) {
+        $(id).required = true;
+        $(id).disabled = false;
+      }
+
+    });
+
+    // ==============================
+    // JUDUL MODAL
+    // ==============================
+
+    $('hdModalTitle').textContent =
+      'INPUT DATA HEMODIALISIS — POST HD';
+
+    $('hdSubmitBtn').textContent =
+      'Simpan Data POST HD';
+
+    const note =
+      $('patientHDNote');
+
+    note.textContent =
+      'Data PRE HD sudah tersimpan. Lengkapi data POST setelah pasien selesai menjalani terapi hemodialisis.';
+
+    note.style.display =
+      'block';
+
+    // ==============================
+    // BUKA MODAL
+    // ==============================
+
+    $('hdModal').classList.add('show');
+
+  } catch (err) {
+
+    console.error(err);
+
+    toast(
+      err?.message ||
+      'Gagal membuka data POST HD.'
+    );
+  }
+}
 async function submitHD(e){
   e.preventDefault();
   const mode=$('h_mode').value||'pre';
@@ -1502,7 +1689,7 @@ function renderHistoryProfile(p){$('historyProfile').innerHTML=p?`<div class="pr
               <button
                 class="btn btn-primary btn-small"
                 type="button"
-                onclick="openHDPost('${esc(x.id_hd)}')">
+                onclick="openHDPost('${esc(x.id_hd)}','${esc(x.id_pasien)}')">
                 Lengkapi Post
               </button>
             `;
