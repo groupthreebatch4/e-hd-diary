@@ -693,6 +693,7 @@
 
   <!-- BB POST -->
   <div class="hd-vital-field">
+
     <label>BB Post (kg) *</label>
 
     <input
@@ -713,10 +714,12 @@
       >
       Tidak ditimbang
     </label>
+
   </div>
 
   <!-- TD POST -->
   <div class="hd-vital-field">
+
     <label>TD Post (mmHg) *</label>
 
     <input
@@ -724,13 +727,16 @@
       type="text"
       inputmode="numeric"
       maxlength="7"
+      class="input"
       placeholder="120/80"
       oninput="formatBP(this)"
     >
+
   </div>
 
   <!-- NADI POST -->
   <div class="hd-vital-field">
+
     <label>Nadi Post (x/menit) *</label>
 
     <input
@@ -741,21 +747,14 @@
       class="input"
       placeholder="Masukkan Nadi Post"
     >
+
   </div>
 
-  <!-- INFORMASI -->
   <div class="hd-info-box hd-info-success">
     ✓ Data POST HD diisi setelah pasien selesai menjalani terapi hemodialisis.
   </div>
 
 </div>
-          <div class="hd-vital-field">
-            <label>Nadi Post (x/menit) *</label>
-            <input id="h_nadipost" type="number" min="20" max="250" class="input" placeholder="Masukkan Nadi Post">
-          </div>
-          <div class="hd-info-box hd-info-success">✓ Data POST HD diisi setelah pasien selesai menjalani terapi hemodialisis.</div>
-        </div>
-
         <div class="hd-modal-actions">
           <button type="button" class="btn btn-secondary" onclick="closeModal('hdModal')">Batal</button>
           <button id="hdSubmitBtn" class="btn btn-primary" type="submit">Simpan Data PRE HD</button>
