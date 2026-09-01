@@ -674,13 +674,23 @@
           <div class="hd-vital-field">
             <label>TD Pre (mmHg) *</label>
             <input
-              id="h_tdpre"
-              type="text"
-              inputmode="numeric"
-              maxlength="7"
-              placeholder="120/80"
-              oninput="formatBP(this)"
-            >
+  id="h_bbpre"
+  type="number"
+  step="0.1"
+  min="0.1"
+  max="500"
+  class="input"
+  placeholder="Masukkan BB Pre"
+>
+
+<label class="bb-no-weigh">
+  <input
+    type="checkbox"
+    id="h_bbpre_no_weigh"
+    onchange="toggleBBNoWeigh('pre')"
+  >
+  Tidak ditimbang
+</label>
           </div>
           <div class="hd-vital-field">
             <label>Nadi Pre (x/menit) *</label>
@@ -694,15 +704,23 @@
           <div class="hd-vital-field">
             <label>BB Pre (kg) *</label>
            <input
-    id="h_bbpre"
-    type="number"
-    step="0.1"
-    min="0.1"
-    max="500"
-    class="input"
-    placeholder="Masukkan BB Pre"
-  >
+  id="h_bbpost"
+  type="number"
+  step="0.1"
+  min="0.1"
+  max="500"
+  class="input"
+  placeholder="Masukkan BB Post"
+>
 
+<label class="bb-no-weigh">
+  <input
+    type="checkbox"
+    id="h_bbpost_no_weigh"
+    onchange="toggleBBNoWeigh('post')"
+  >
+  Tidak ditimbang
+</label>
   <label class="bb-no-weigh">
     <input
       type="checkbox"
@@ -822,7 +840,8 @@ async function server(fn, ...args) {
     );
   }
 }
-function toggleBBNoWeigh(type) {
+
+  function toggleBBNoWeigh(type) {
   const input = type === 'pre'
     ? $('h_bbpre')
     : $('h_bbpost');
@@ -836,14 +855,12 @@ function toggleBBNoWeigh(type) {
   if (checkbox.checked) {
     input.value = '00';
     input.disabled = true;
-    input.removeAttribute('required');
   } else {
     input.value = '';
     input.disabled = false;
-    input.setAttribute('required', 'required');
-    input.focus();
   }
 }
+  
 async function doLogin(e) {
   if (e) e.preventDefault();
   const err = $('loginError');
@@ -1241,19 +1258,81 @@ async function submitPatient(e){
   input.value = value;
 }
 
-function resetHDForm(){
-  ['h_idhd','h_bbpre','h_tdpre','h_nadipre','h_bbpost','h_tdpost','h_nadipost'].forEach(id=>{if($(id))$(id).value='';});
-  $('h_mode').value='pre';
-  $('h_tanggal').value=localDateInput();
-  $('h_tanggal').max=localDateInput();
-  $('hdModalTitle').textContent='INPUT DATA HEMODIALISIS — PRE HD';
-  $('hdSubmitBtn').textContent='Simpan Data PRE HD';
-  $('preSection').style.display='block';
-  $('postSection').style.display='none';
-  ['h_bbpre','h_tdpre','h_nadipre'].forEach(id=>$(id).required=true);
-  ['h_bbpost','h_tdpost','h_nadipost'].forEach(id=>$(id).required=false);
-}
+function resetHDForm() {
+  // Reset semua nilai input
+  [
+    'h_idhd',
+    'h_bbpre',
+    'h_tdpre',
+    'h_nadipre',
+    'h_bbpost',
+    'h_tdpost',
+    'h_nadipost'
+  ].forEach(function(id) {
+    if ($(id)) {
+      $(id).value = '';
+    }
+  });
 
+  // Reset checkbox "Tidak ditimbang"
+  if ($('h_bbpre_no_weigh')) {
+    $('h_bbpre_no_weigh').checked = false;
+  }
+
+  if ($('h_bbpost_no_weigh')) {
+    $('h_bbpost_no_weigh').checked = false;
+  }
+
+  // Aktifkan kembali input BB
+  if ($('h_bbpre')) {
+    $('h_bbpre').disabled = false;
+  }
+
+  if ($('h_bbpost')) {
+    $('h_bbpost').disabled = false;
+  }
+
+  // Mode awal = PRE HD
+  $('h_mode').value = 'pre';
+
+  // Tanggal default hari ini
+  $('h_tanggal').value = localDateInput();
+  $('h_tanggal').max = localDateInput();
+
+  // Judul modal
+  $('hdModalTitle').textContent =
+    'INPUT DATA HEMODIALISIS — PRE HD';
+
+  // Tombol simpan
+  $('hdSubmitBtn').textContent =
+    'Simpan Data PRE HD';
+
+  // Tampilkan PRE, sembunyikan POST
+  $('preSection').style.display = 'block';
+  $('postSection').style.display = 'none';
+
+  // Field PRE wajib
+  [
+    'h_bbpre',
+    'h_tdpre',
+    'h_nadipre'
+  ].forEach(function(id) {
+    if ($(id)) {
+      $(id).required = true;
+    }
+  });
+
+  // Field POST tidak wajib pada tahap PRE
+  [
+    'h_bbpost',
+    'h_tdpost',
+    'h_nadipost'
+  ].forEach(function(id) {
+    if ($(id)) {
+      $(id).required = false;
+    }
+  });
+}
 function openHD(){
   resetHDForm();
   const patient=String(ME?.role||'').trim().toLowerCase()==='pasien';
