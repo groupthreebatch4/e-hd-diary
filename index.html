@@ -58,6 +58,34 @@
 @media(max-width:1100px){.edu-tabs{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.edu-tabs{grid-template-columns:1fr 1fr}.poster-head{align-items:flex-start;flex-direction:column}.poster-head .btn{width:100%;text-align:center}.poster-frame img{max-height:none;width:100%}}
 .role-hd{display:flex}.patient-hd-note{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef7ff;border:1px solid #d6eaff;color:#245274;font-size:11px;line-height:1.5}.hd-patient-locked{background:#f5f8fb !important;color:#4b647b !important} .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-success{background:#dcfce7;color:#166534}.badge-warning{background:#fef3c7;color:#92400e}.btn-small{padding:7px 10px;font-size:11px}
 
+.bb-no-weigh {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 8px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #64748b;
+
+  cursor: pointer;
+}
+
+.bb-no-weigh input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+
+  cursor: pointer;
+}
+
+.hd-vital-field input:disabled {
+  background: #f1f5f9;
+  color: #64748b;
+  cursor: not-allowed;
+}
+   
 /* =========================================================
    GRAFIK JUMLAH SESI HD PER HARI
    e-HD DIARY
@@ -664,20 +692,48 @@
         <div id="postSection" class="hd-col post" style="border:1px solid #cfd8e3;border-radius:10px;overflow:hidden;display:none;margin-top:14px">
           <div class="hd-col-title">DATA POST HD — DIISI SETELAH TINDAKAN</div>
           <div class="hd-vital-field">
-            <label>BB Post (kg) *</label>
-            <input id="h_bbpost" type="number" step="0.1" min="0.1" max="500" class="input" placeholder="Masukkan BB Post">
-          </div>
+            <label>BB Pre (kg) *</label>
+           <input
+    id="h_bbpre"
+    type="number"
+    step="0.1"
+    min="0.1"
+    max="500"
+    class="input"
+    placeholder="Masukkan BB Pre"
+  >
+
+  <label class="bb-no-weigh">
+    <input
+      type="checkbox"
+      id="h_bbpre_no_weigh"
+      onchange="toggleBBNoWeigh('pre')"
+    >
+    Tidak ditimbang
+  </label></div>
+           
           <div class="hd-vital-field">
-            <label>TD Post (mmHg) *</label>
-            <input
-              id="h_tdpost"
-              type="text"
-              inputmode="numeric"
-              maxlength="7"
-              placeholder="120/80"
-              oninput="formatBP(this)"
-            >
-          </div>
+  <label>BB Post (kg) *</label>
+
+  <input
+    id="h_bbpost"
+    type="number"
+    step="0.1"
+    min="0.1"
+    max="500"
+    class="input"
+    placeholder="Masukkan BB Post"
+  >
+
+  <label class="bb-no-weigh">
+    <input
+      type="checkbox"
+      id="h_bbpost_no_weigh"
+      onchange="toggleBBNoWeigh('post')"
+    >
+    Tidak ditimbang
+  </label>
+</div>
           <div class="hd-vital-field">
             <label>Nadi Post (x/menit) *</label>
             <input id="h_nadipost" type="number" min="20" max="250" class="input" placeholder="Masukkan Nadi Post">
@@ -766,7 +822,28 @@ async function server(fn, ...args) {
     );
   }
 }
+function toggleBBNoWeigh(type) {
+  const input = type === 'pre'
+    ? $('h_bbpre')
+    : $('h_bbpost');
 
+  const checkbox = type === 'pre'
+    ? $('h_bbpre_no_weigh')
+    : $('h_bbpost_no_weigh');
+
+  if (!input || !checkbox) return;
+
+  if (checkbox.checked) {
+    input.value = '00';
+    input.disabled = true;
+    input.removeAttribute('required');
+  } else {
+    input.value = '';
+    input.disabled = false;
+    input.setAttribute('required', 'required');
+    input.focus();
+  }
+}
 async function doLogin(e) {
   if (e) e.preventDefault();
   const err = $('loginError');
