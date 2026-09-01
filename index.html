@@ -673,9 +673,17 @@
             <label class="bb-no-weigh"> <input type="checkbox" id="h_bbpre_no_weigh" onchange="toggleBBNoWeigh('pre')">Tidak ditimbang</label>
           </div>
           <div class="hd-vital-field">
-            <label>TD Pre (mmHg) *</label>
-            <input id="h_bbpre" type="number" step="0.1" min="0.1" max="500" class="input" placeholder="Masukkan BB Pre">
-          </div>
+  <label>TD Pre (mmHg) *</label>
+  <input
+    id="h_tdpre"
+    type="text"
+    inputmode="numeric"
+    maxlength="7"
+    class="input"
+    placeholder="120/80"
+    oninput="formatBP(this)"
+  >
+</div>
           <div class="hd-vital-field">
             <label>Nadi Pre (x/menit) *</label>
             <input id="h_nadipre" type="number" min="20" max="250" class="input" placeholder="Masukkan Nadi Pre">
@@ -683,77 +691,26 @@
           <div class="hd-info-box">ℹ️ Data PRE HD wajib diisi sebelum pasien menjalani terapi hemodialisis.</div>
         </div>
 
-        <div id="postSection"
-     class="hd-col post"
-     style="border:1px solid #cfd8e3;border-radius:10px;overflow:hidden;display:none;margin-top:14px">
-
-  <div class="hd-col-title">
-    DATA POST HD — DIISI SETELAH TINDAKAN
-  </div>
-
+  <div id="postSection" class="hd-col post" style="border:1px solid #cfd8e3;border-radius:10px;overflow:hidden;display:none;margin-top:14px">
+  <div class="hd-col-title">DATA POST HD — DIISI SETELAH TINDAKAN</div>
   <!-- BB POST -->
   <div class="hd-vital-field">
-
     <label>BB Post (kg) *</label>
-
-    <input
-      id="h_bbpost"
-      type="number"
-      step="0.1"
-      min="0.1"
-      max="500"
-      class="input"
-      placeholder="Masukkan BB Post"
-    >
-
+    <input id="h_bbpost" type="number" step="0.1" min="0.1" max="500" class="input" placeholder="Masukkan BB Post">
     <label class="bb-no-weigh">
-      <input
-        type="checkbox"
-        id="h_bbpost_no_weigh"
-        onchange="toggleBBNoWeigh('post')"
-      >
-      Tidak ditimbang
-    </label>
-
+      <input type="checkbox" id="h_bbpost_no_weigh" onchange="toggleBBNoWeigh('post')">Tidak ditimbang</label>
   </div>
-
   <!-- TD POST -->
   <div class="hd-vital-field">
-
     <label>TD Post (mmHg) *</label>
-
-    <input
-      id="h_tdpost"
-      type="text"
-      inputmode="numeric"
-      maxlength="7"
-      class="input"
-      placeholder="120/80"
-      oninput="formatBP(this)"
-    >
-
+    <input id="h_tdpost" type="text" inputmode="numeric" maxlength="7" class="input" placeholder="120/80" oninput="formatBP(this)">
   </div>
-
   <!-- NADI POST -->
   <div class="hd-vital-field">
-
     <label>Nadi Post (x/menit) *</label>
-
-    <input
-      id="h_nadipost"
-      type="number"
-      min="20"
-      max="250"
-      class="input"
-      placeholder="Masukkan Nadi Post"
-    >
-
+    <input id="h_nadipost" type="number" min="20" max="250" class="input" placeholder="Masukkan Nadi Post">
   </div>
-
-  <div class="hd-info-box hd-info-success">
-    ✓ Data POST HD diisi setelah pasien selesai menjalani terapi hemodialisis.
-  </div>
-
+  <div class="hd-info-box hd-info-success">✓ Data POST HD diisi setelah pasien selesai menjalani terapi hemodialisis.</div>
 </div>
         <div class="hd-modal-actions">
           <button type="button" class="btn btn-secondary" onclick="closeModal('hdModal')">Batal</button>
