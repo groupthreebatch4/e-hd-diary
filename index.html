@@ -56,452 +56,7 @@
 /* ===== V4 EDUCATION POSTER ===== */
 .edu-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}.edu-tab{border:1px solid #dbe8f3;background:#fff;color:#23415e;border-radius:12px;padding:11px 9px;min-height:74px;text-align:left;display:flex;gap:8px;align-items:center;transition:.2s}.edu-tab span{font-size:21px}.edu-tab b{font-size:11px;line-height:1.35}.edu-tab:hover{border-color:#9bc8f2;transform:translateY(-1px)}.edu-tab.active{background:linear-gradient(135deg,#eaf5ff,#f5fbff);border:2px solid #1677ff;color:#0b63ce;box-shadow:0 6px 18px rgba(22,119,255,.12)}.edu-tab.disabled{opacity:.55;cursor:not-allowed}.education-viewer{background:#fff;border:1px solid #dce8f2;border-radius:18px;box-shadow:0 8px 28px rgba(31,70,112,.08);padding:16px}.poster-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}.poster-head h3{margin:0;font-size:18px;color:#17324d}.poster-head p{margin:5px 0 0;color:#71839a;font-size:12px}.poster-frame{display:flex;justify-content:center;align-items:center;background:#f5f8fb;border:1px solid #e1eaf2;border-radius:12px;padding:12px;min-height:320px;overflow:auto}.poster-frame img{display:block;width:auto;max-width:100%;height:auto;max-height:1100px;object-fit:contain;box-shadow:0 5px 20px rgba(0,0,0,.08);background:#fff}.edu-empty-poster{min-height:320px;width:100%;display:grid;place-items:center;text-align:center;padding:40px;color:#71839a}.edu-empty-poster h3{color:#294765;margin:8px 0}.edu-empty-poster p{margin:0;font-size:12px}.edu-disclaimer{margin-top:16px}.password-toggle{cursor:pointer}.password-toggle:focus{outline:2px solid #6ab0ff;outline-offset:1px}
 @media(max-width:1100px){.edu-tabs{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.edu-tabs{grid-template-columns:1fr 1fr}.poster-head{align-items:flex-start;flex-direction:column}.poster-head .btn{width:100%;text-align:center}.poster-frame img{max-height:none;width:100%}}
-.role-hd{display:flex}.patient-hd-note{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef7ff;border:1px solid #d6eaff;color:#245274;font-size:11px;line-height:1.5}.hd-patient-locked{background:#f5f8fb !important;color:#4b647b !important} .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-success{background:#dcfce7;color:#166534}.badge-warning{background:#fef3c7;color:#92400e}.btn-small{padding:7px 10px;font-size:11px}
-
-.bb-no-weigh {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  margin-top: 8px;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  color: #64748b;
-
-  cursor: pointer;
-}
-
-.bb-no-weigh input[type="checkbox"] {
-  width: 17px;
-  height: 17px;
-
-  cursor: pointer;
-}
-
-.hd-vital-field input:disabled {
-  background: #f1f5f9;
-  color: #64748b;
-  cursor: not-allowed;
-}
-   
-/* =========================================================
-   GRAFIK JUMLAH SESI HD PER HARI
-   e-HD DIARY
-   Tema: Hijau Cerah
-   ========================================================= */
-
-/* Container utama grafik */
-.session-chart-scroll {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 10px 8px 6px;
-  box-sizing: border-box;
-}
-
-/* Area grafik */
-.session-chart-area {
-  position: relative;
-
-  /* 30-31 tanggal membutuhkan ruang */
-  min-width: 760px;
-
-  height: 300px;
-
-  padding: 22px 15px 0 60px;
-
-  box-sizing: border-box;
-}
-
-/* Judul sumbu Y */
-.session-chart-ytitle {
-  position: absolute;
-
-  left: 8px;
-  top: 135px;
-
-  transform: rotate(-90deg);
-  transform-origin: center;
-
-  font-size: 10px;
-  font-weight: 600;
-
-  color: #64748b;
-
-  white-space: nowrap;
-}
-
-/* Area batang */
-.session-chart-bars {
-  height: 240px;
-
-  display: flex;
-  align-items: flex-end;
-
-  gap: 5px;
-
-  position: relative;
-
-  border-bottom: 1px solid #cbd5e1;
-}
-
-/* Garis bantu horizontal */
-.session-chart-bars::before,
-.session-chart-bars::after {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  right: 0;
-
-  pointer-events: none;
-
-  border-top: 1px dashed #dbe7df;
-}
-
-/* Garis 50% */
-.session-chart-bars::before {
-  bottom: 50%;
-}
-
-/* Garis 75% */
-.session-chart-bars::after {
-  bottom: 75%;
-}
-
-
-/* =========================================================
-   SETIAP BATANG
-   ========================================================= */
-
-.session-bar-item {
-  flex: 1 0 18px;
-
-  min-width: 18px;
-
-  height: 240px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: flex-end;
-
-  align-items: center;
-
-  position: relative;
-
-  cursor: default;
-}
-
-
-/* =========================================================
-   GRAFIK SESI HD - BAR CHART
-   ========================================================= */
-
-.session-chart {
-  width: 100%;
-  height: 300px;
-
-  display: flex;
-
-  position: relative;
-
-  box-sizing: border-box;
-
-  padding: 10px 20px 0 55px;
-
-  background: #ffffff;
-}
-
-
-/* =========================================================
-   AREA SUMBU Y
-   ========================================================= */
-
-.session-chart-yaxis {
-
-  position: absolute;
-
-  left: 0;
-  top: 10px;
-  bottom: 35px;
-
-  width: 48px;
-
-  pointer-events: none;
-}
-
-
-/* Garis grid */
-
-.session-grid-line {
-
-  position: absolute;
-
-  left: 48px;
-  right: 0;
-
-  border-top: 1px dashed #d7eadf;
-
-  height: 1px;
-}
-
-
-/* Angka sumbu Y */
-
-.session-y-label {
-
-  position: absolute;
-
-  right: 8px;
-
-  top: -7px;
-
-  font-size: 10px;
-
-  font-weight: 600;
-
-  color: #64748b;
-
-  white-space: nowrap;
-}
-
-
-/* =========================================================
-   AREA PLOT
-   ========================================================= */
-
-.session-chart-plot {
-
-  width: 100%;
-
-  height: 255px;
-
-  position: relative;
-
-  border-bottom: 2px solid #cbd5e1;
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   KUMPULAN BATANG
-   ========================================================= */
-
-.session-chart-bars {
-
-  width: 100%;
-
-  height: 100%;
-
-  display: flex;
-
-  align-items: flex-end;
-
-  justify-content: space-between;
-
-  gap: 4px;
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   ITEM BATANG
-   ========================================================= */
-
-.session-bar-item {
-
-  flex: 1;
-
-  min-width: 8px;
-
-  height: 100%;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: flex-end;
-
-  align-items: center;
-
-  position: relative;
-}
-
-
-/* =========================================================
-   WRAPPER BATANG
-   ========================================================= */
-
-.session-bar-wrapper {
-
-  width: 100%;
-
-  height: calc(100% - 24px);
-
-  display: flex;
-
-  align-items: flex-end;
-
-  justify-content: center;
-
-  position: relative;
-}
-
-
-/* =========================================================
-   BATANG HIJAU CERAH
-   ========================================================= */
-
-.session-bar {
-
-  width: 65%;
-
-  max-width: 26px;
-
-  min-width: 6px;
-
-  background: linear-gradient(
-    to top,
-    #16a34a,
-    #22c55e,
-    #4ade80
-  );
-
-  border-radius: 5px 5px 0 0;
-
-  box-shadow:
-    0 3px 7px rgba(
-      22,
-      163,
-      74,
-      0.22
-    );
-
-  transition:
-    transform .18s ease,
-    opacity .18s ease;
-}
-
-
-/* Hover */
-
-.session-bar-item:hover .session-bar {
-
-  transform: translateY(-4px);
-
-  opacity: .85;
-}
-
-
-/* =========================================================
-   ANGKA DI ATAS BATANG
-   ========================================================= */
-
-.session-bar-value {
-
-  position: absolute;
-
-  bottom: calc(
-    var(--bar-height, 0px) + 3px
-  );
-
-  font-size: 9px;
-
-  font-weight: 700;
-
-  color: #166534;
-
-  white-space: nowrap;
-}
-
-
-/* =========================================================
-   TANGGAL
-   ========================================================= */
-
-.session-bar-label {
-
-  height: 24px;
-
-  padding-top: 7px;
-
-  font-size: 9px;
-
-  font-weight: 500;
-
-  color: #64748b;
-
-  text-align: center;
-
-  white-space: nowrap;
-}
-
-
-/* =========================================================
-   KETERANGAN
-   ========================================================= */
-
-.session-chart-caption {
-
-  text-align: center;
-
-  margin-top: -3px;
-
-  font-size: 10px;
-
-  color: #64748b;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 768px) {
-
-  .session-chart {
-
-    min-width: 680px;
-
-    height: 290px;
-
-    padding-left: 50px;
-    padding-right: 10px;
-  }
-
-  .session-chart-plot {
-
-    height: 245px;
-  }
-
-  .session-bar {
-
-    width: 70%;
-
-    max-width: 20px;
-  }
-
-  .session-bar-value {
-
-    font-size: 8px;
-  }
-
-  .session-bar-label {
-
-    font-size: 8px;
-  }
-
-}
-
-</style>
-</style>
+.role-hd{display:flex}.patient-hd-note{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef7ff;border:1px solid #d6eaff;color:#245274;font-size:11px;line-height:1.5}.hd-patient-locked{background:#f5f8fb !important;color:#4b647b !important} .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-success{background:#dcfce7;color:#166534}.badge-warning{background:#fef3c7;color:#92400e}.btn-small{padding:7px 10px;font-size:11px}</style>
 </head>
 <body><div id="loginView" class="login">
   <div class="login-card">
@@ -579,20 +134,7 @@
       <div class="field"><label>Tanggal Mulai *</label><input id="r_start" type="date" class="input" required></div>
       <div class="field"><label>Tanggal Akhir *</label><input id="r_end" type="date" class="input" required></div>
       <div class="field"><label>Pasien</label><select id="r_patient" class="select"><option value="">Semua Pasien</option></select></div>
-      <div class="field"><label>Jadwal HD</label>
-         <select id="r_schedule" class="select">
-           <option value="">Semua Jadwal</option>
-           <option value="Senin dan Kamis">Senin dan Kamis</option>
-           <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
-           <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
-           <option value="Setiap Senin">Setiap Senin</option>
-           <option value="Setiap Selasa">Setiap Selasa</option>
-           <option value="Setiap Rabu">Setiap Rabu</option>
-           <option value="Setiap Kamis">Setiap Kamis</option>
-           <option value="Setiap Jum'at">Setiap Jum'at</option>
-           <option value="Setiap Sabtu">Setiap Sabtu</option>
-           <option value="Setiap Minggu">Setiap Minggu</option>
-         </select></div>
+      <div class="field"><label>Jadwal HD</label><select id="r_schedule" class="select"><option value="">Semua Jadwal</option><option>Senin dan Kamis</option><option>Selasa dan Jum'at</option><option>Rabu dan Sabtu</option><option>Minggu</option><option>Hari Lainnya</option></select></div>
     </div>
     <div class="report-actions">
       <button class="btn btn-primary" onclick="generateReport()">🔍 Tampilkan Laporan</button>
@@ -623,18 +165,12 @@
 <!-- Patient Modal -->
 <div id="patientModal" class="modal"><div class="modal-card"><div class="modal-head"><b id="patientModalTitle">Tambah Pasien</b><button class="close" onclick="closeModal('patientModal')">×</button></div><div class="modal-body"><form onsubmit="submitPatient(event)"><input id="p_id" type="hidden"><div class="form-grid"><div class="field"><label>ID Pasien</label><input id="p_id_view" class="input" readonly value="Otomatis"></div><div class="field"><label>Nama Pasien *</label><input id="p_nama" class="input" required></div><div class="field"><label>NIK *</label><input id="p_nik" class="input" inputmode="numeric" maxlength="16" pattern="[0-9]{16}" required></div><div class="field"><label>Jenis Kelamin *</label><select id="p_jk" class="select" required><option value="">Pilih...</option><option>Laki-laki</option><option>Perempuan</option></select></div><div class="field"><label>Tanggal Lahir *</label><input id="p_lahir" type="date" class="input" required></div><div class="field"><label>No. HP *</label><input id="p_hp" class="input" inputmode="tel" required></div><div class="field fullcol"><label>Alamat *</label><textarea id="p_alamat" class="textarea" rows="2" required></textarea></div><div class="field">
 <label>Jadwal HD *</label>
-<select id="p_jadwal" class="select" required>
-  <option value="">Pilih jadwal...</option>
-  <option value="Senin dan Kamis">Senin dan Kamis</option>
-  <option value="Selasa dan Jum'at">Selasa dan Jum'at</option>
-  <option value="Rabu dan Sabtu">Rabu dan Sabtu</option>
-  <option value="Setiap Senin">Setiap Senin</option>
-  <option value="Setiap Selasa">Setiap Selasa</option>
-  <option value="Setiap Rabu">Setiap Rabu</option>
-  <option value="Setiap Kamis">Setiap Kamis</option>
-  <option value="Setiap Jum'at">Setiap Jum'at</option>
-  <option value="Setiap Sabtu">Setiap Sabtu</option>
-  <option value="Setiap Minggu">Setiap Minggu</option>
+<select id="p_jadwal" class="select" required onchange="toggleManualSchedule()">
+<option value="">Pilih jadwal...</option>
+<option value="Senin dan Kamis">1. Senin dan Kamis</option>
+<option value="Selasa dan Jum'at">2. Selasa dan Jum'at</option>
+<option value="Rabu dan Sabtu">3. Rabu dan Sabtu</option>
+<option value="Hari Lainnya">4. Hari Lainnya</option>
 </select>
 <div id="manualScheduleWrap" class="manual-schedule hidden">
 <input id="p_jadwal_manual" class="input" placeholder="Ketik hari/jadwal secara manual, misalnya: Senin, Rabu dan Jumat">
@@ -670,11 +206,10 @@
           <div class="hd-vital-field">
             <label>BB Pre (kg) *</label>
             <input id="h_bbpre" type="number" step="0.1" min="0.1" max="500" class="input" placeholder="Masukkan BB Pre">
-            <label class="bb-no-weigh"> <input type="checkbox" id="h_bbpre_no_weigh" onchange="toggleBBNoWeigh('pre')">Tidak ditimbang</label>
           </div>
           <div class="hd-vital-field">
             <label>TD Pre (mmHg) *</label>
-            <input id="h_bbpre" type="number" step="0.1" min="0.1" max="500" class="input" placeholder="Masukkan BB Pre">
+            <input id="h_tdpre" class="input" placeholder="120/80" pattern="[0-9]{2,3}\s*/\s*[0-9]{2,3}" inputmode="text">
           </div>
           <div class="hd-vital-field">
             <label>Nadi Pre (x/menit) *</label>
@@ -683,72 +218,16 @@
           <div class="hd-info-box">ℹ️ Data PRE HD wajib diisi sebelum pasien menjalani terapi hemodialisis.</div>
         </div>
 
-        <div id="postSection"
-     class="hd-col post"
-     style="border:1px solid #cfd8e3;border-radius:10px;overflow:hidden;display:none;margin-top:14px">
-
-  <div class="hd-col-title">
-    DATA POST HD — DIISI SETELAH TINDAKAN
-  </div>
-
-  <!-- BB POST -->
-  <div class="hd-vital-field">
-    <label>BB Post (kg) *</label>
-
-    <input
-      id="h_bbpost"
-      type="number"
-      step="0.1"
-      min="0.1"
-      max="500"
-      class="input"
-      placeholder="Masukkan BB Post"
-    >
-
-    <label class="bb-no-weigh">
-      <input
-        type="checkbox"
-        id="h_bbpost_no_weigh"
-        onchange="toggleBBNoWeigh('post')"
-      >
-      Tidak ditimbang
-    </label>
-  </div>
-
-  <!-- TD POST -->
-  <div class="hd-vital-field">
-    <label>TD Post (mmHg) *</label>
-
-    <input
-      id="h_tdpost"
-      type="text"
-      inputmode="numeric"
-      maxlength="7"
-      placeholder="120/80"
-      oninput="formatBP(this)"
-    >
-  </div>
-
-  <!-- NADI POST -->
-  <div class="hd-vital-field">
-    <label>Nadi Post (x/menit) *</label>
-
-    <input
-      id="h_nadipost"
-      type="number"
-      min="20"
-      max="250"
-      class="input"
-      placeholder="Masukkan Nadi Post"
-    >
-  </div>
-
-  <!-- INFORMASI -->
-  <div class="hd-info-box hd-info-success">
-    ✓ Data POST HD diisi setelah pasien selesai menjalani terapi hemodialisis.
-  </div>
-
-</div>
+        <div id="postSection" class="hd-col post" style="border:1px solid #cfd8e3;border-radius:10px;overflow:hidden;display:none;margin-top:14px">
+          <div class="hd-col-title">DATA POST HD — DIISI SETELAH TINDAKAN</div>
+          <div class="hd-vital-field">
+            <label>BB Post (kg) *</label>
+            <input id="h_bbpost" type="number" step="0.1" min="0.1" max="500" class="input" placeholder="Masukkan BB Post">
+          </div>
+          <div class="hd-vital-field">
+            <label>TD Post (mmHg) *</label>
+            <input id="h_tdpost" class="input" placeholder="120/80" pattern="[0-9]{2,3}\s*/\s*[0-9]{2,3}" inputmode="text">
+          </div>
           <div class="hd-vital-field">
             <label>Nadi Post (x/menit) *</label>
             <input id="h_nadipost" type="number" min="20" max="250" class="input" placeholder="Masukkan Nadi Post">
@@ -779,10 +258,10 @@ let REPORT_ROWS = [];
 let REPORT_FILTER = {};
 
 const $ = id => document.getElementById(id);
-const icons = ['💙','🫘','🩸','🩸','🛏️','🍽️','💚','🌬️','📘','💙'];
+const icons = ['💙','🫘','🩸','🩸','🛏️','🍽️','💚','🌬️','📘','📘'];
 
 const EDUCATION_POSTERS = [
-  {title:'HD Bukan Akhir Segalanya', id:'1eRq-oXSzCDoHMsmv-8qfM4EGdCGnHRvx', desc:'Tetap berkualitas, tetap berkarya.'},
+  {title:'Edukasi Bukan Akhir Segalanya', id:'1eRq-oXSzCDoHMsmv-8qfM4EGdCGnHRvx', desc:'Tetap berkualitas, tetap berkarya.'},
   {title:'Penyakit Ginjal Kronik', id:'11FaGnQmeNu7bVuBq-5YycVV4ZTi5tiF4', desc:'Kenali penyakit ginjal kronik dan fungsi ginjal.'},
   {title:'Hemodialisis', id:'1RY80Ub6DHCRIgnFMibajxl2oEvAd46s-', desc:'Mengenal terapi hemodialisis.'},
   {title:'Akses Hemodialisis', id:'1Ag_As9EYqB9PRaA9ZhX4A522eAsz830n', desc:'Perawatan akses hemodialisis.'},
@@ -791,7 +270,7 @@ const EDUCATION_POSTERS = [
   {title:'Motivasi & Kualitas Hidup', id:'1ixw8ZyQwQfO0vmxfuvpzP3ViIivCPTig', desc:'Tetap optimis dan menjaga kualitas hidup.'},
   {title:'Pursed Lip Breathing', id:'13KGWCA3NS1qYq3VwMqBDXN36RXl1TlBx', desc:'Latihan napas dengan bibir mengerucut.'},
   {title:'Tata Cara Sholat Bagi Pasien HD', id:'18mdsfOd8lrEN8ZNUi5xrvPu9yQWZ5yUW', desc:'Tata Cara Sholat Bagi Pasien HD.'},
-  {title:'Dukungan Keluarga', id:'1D76aKs0W0YKSvJOW4ORlAus4hmfOMxf6', desc:'Tetap Semangat Menjalani Hemodialisis dengan Dukungan Keluarga.'}
+  {title:'Edukasi Kelompok 4', id:'', desc:'Materi belum tersedia.'}
 ];
 
 /* =========================================================
@@ -838,26 +317,6 @@ async function server(fn, ...args) {
   }
 }
 
-  function toggleBBNoWeigh(type) {
-  const input = type === 'pre'
-    ? $('h_bbpre')
-    : $('h_bbpost');
-
-  const checkbox = type === 'pre'
-    ? $('h_bbpre_no_weigh')
-    : $('h_bbpost_no_weigh');
-
-  if (!input || !checkbox) return;
-
-  if (checkbox.checked) {
-    input.value = '00';
-    input.disabled = true;
-  } else {
-    input.value = '';
-    input.disabled = false;
-  }
-}
-  
 async function doLogin(e) {
   if (e) e.preventDefault();
   const err = $('loginError');
@@ -984,12 +443,7 @@ async function loadDashboard() {
   $('stAktif').textContent = s.pasienAktif || 0;
   $('stToday').textContent = s.jadwalHariIni || 0;
   $('stPostIncomplete').textContent = s.postBelumLengkap || 0;
-
-  // Simpan sesi terbaru ke HISTORY agar tombol "Lengkapi Post"
-  // pada Dashboard dapat menemukan baris berdasarkan id_hd.
-  HISTORY = Array.isArray(r?.recentHD) ? r.recentHD : [];
-  $('recentHD').innerHTML = tableHD(HISTORY, true);
-
+  $('recentHD').innerHTML = tableHD(r?.recentHD || [], true);
   renderSessionMonthChart(r?.sessionDaily || []);
   renderScheduleSummary(r?.scheduleSummary || []);
 }
@@ -997,164 +451,20 @@ async function loadDashboard() {
 function renderSessionMonthChart(rows) {
   const box = $('sessionMonthChart');
   if (!box) return;
-
   const data = Array.isArray(rows) ? rows : [];
-
-  if (!data.length) {
-    box.innerHTML =
-      '<div class="empty">Belum ada data sesi HD pada periode ini.</div>';
-    return;
-  }
-
-  /* =====================================================
-     DATA
-     ===================================================== */
-
-  const values = data.map(function(item) {
-    return Number(item.count || 0);
-  });
-
-  const actualMax = Math.max(...values, 1);
-
-  /* Bulatkan skala maksimum agar grafik rapi */
-  const maxValue = Math.ceil(actualMax / 5) * 5;
-
-  /* Interval sumbu Y */
-  const step = maxValue <= 20 ? 5 : 10;
-
-  const yTicks = [];
-
-  for (let i = 0; i <= maxValue; i += step) {
-    yTicks.push(i);
-  }
-
-  /* =====================================================
-     GARIS / GRID Y
-     ===================================================== */
-
-  const gridLines = yTicks.map(function(value) {
-
-    const bottom =
-      (value / maxValue) * 100;
-
-    return `
-      <div
-        class="session-grid-line"
-        style="bottom:${bottom}%"
-      >
-        <span class="session-y-label">
-          ${value}
-        </span>
-      </div>
-    `;
-
-  }).join('');
-
-
-  /* =====================================================
-     BATANG
-     ===================================================== */
-
-  const bars = data.map(function(item, index) {
-
-    const value = Number(item.count || 0);
-
-    const height =
-      value > 0
-        ? Math.max(
-            3,
-            (value / maxValue) * 100
-          )
-        : 0;
-
-    /*
-      Tampilkan label tanggal:
-      - tanggal pertama
-      - tanggal terakhir
-      - setiap 5 hari
-    */
-
-    const showDate =
-      index === 0 ||
-      index === data.length - 1 ||
-      index % 5 === 0;
-
-    const dateLabel = esc(
-      item.label ||
-      item.fullDate ||
-      item.date ||
-      '-'
-    );
-
-    const tooltipDate = esc(
-      item.fullDate ||
-      item.date ||
-      item.label ||
-      '-'
-    );
-
-    return `
-      <div
-        class="session-bar-item"
-        title="${tooltipDate} — ${value} sesi HD"
-      >
-
-        <div class="session-bar-wrapper">
-
-          ${
-            value > 0
-              ? `<div class="session-bar-value">${value}</div>`
-              : ''
-          }
-
-          <div
-            class="session-bar"
-            style="height:${height}%"
-          ></div>
-
-        </div>
-
-        <div class="session-bar-label">
-          ${showDate ? dateLabel : ''}
-        </div>
-
-      </div>
-    `;
-
-  }).join('');
-
-
-  /* =====================================================
-     HTML GRAFIK
-     ===================================================== */
-
-  box.innerHTML = `
-
-    <div class="session-chart">
-
-      <div class="session-chart-yaxis">
-
-        ${gridLines}
-
-      </div>
-
-      <div class="session-chart-plot">
-
-        <div class="session-chart-bars">
-
-          ${bars}
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="session-chart-caption">
-      Jumlah sesi hemodialisis per hari
-    </div>
-
-  `;
+  if (!data.length) { box.innerHTML = '<div class="empty">Belum ada data sesi HD pada periode ini.</div>'; return; }
+  const total = data.reduce((sum,item)=>sum+Number(item.count||0),0);
+  const max = Math.max(1,...data.map(item=>Number(item.count||0)));
+  const w=760,h=300,padL=48,padR=18,padT=22,padB=42,plotW=w-padL-padR,plotH=h-padT-padB;
+  const x=i=>padL+plotW*i/Math.max(data.length-1,1);
+  const y=v=>padT+plotH-(Number(v||0)/max)*plotH;
+  const grid=[0,.25,.5,.75,1].map(ratio=>{const value=Math.round(max*ratio),yy=y(value);return `<line x1="${padL}" x2="${w-padR}" y1="${yy}" y2="${yy}"/><text x="${padL-8}" y="${yy+4}" text-anchor="end">${value}</text>`}).join('');
+  const points=data.map((item,i)=>`${x(i)},${y(item.count)}`).join(' ');
+  const dots=data.map((item,i)=>`<circle class="month-dot" cx="${x(i)}" cy="${y(item.count)}" r="3.5"><title>${esc(item.label)}: ${Number(item.count||0)} sesi</title></circle>`).join('');
+  const step=data.length>15?Math.ceil(data.length/8):2;
+  const labels=data.map((item,i)=>{if(i!==0&&i!==data.length-1&&i%step!==0)return '';return `<text x="${x(i)}" y="${h-14}" text-anchor="middle">${esc(item.label)}</text>`}).join('');
+  box.innerHTML=`<svg class="month-chart-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Grafik jumlah sesi hemodialisis per hari selama satu bulan terakhir"><g class="chart-grid">${grid}</g><polyline class="month-line" points="${points}"/>${dots}${labels}</svg><div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px 0;font-size:11px;color:#64748b"><span>Total sesi periode ini</span><b style="font-size:18px;color:var(--primary)">${total}</b></div>`;
+  if($('sessionChartPeriod')) $('sessionChartPeriod').textContent=(data[0]?.fullDate&&data[data.length-1]?.fullDate)?`${data[0].fullDate} – ${data[data.length-1].fullDate}`:'1 bulan terakhir';
 }
 
 function renderScheduleSummary(rows) {
@@ -1202,262 +512,29 @@ function openPatient(p) {
   $('patientModalTitle').textContent=p?'Ubah Data Pasien':'Tambah Data Pasien';
   $('p_id').value=p?.id_pasien||''; $('p_id_view').value=p?.id_pasien||'Otomatis'; $('p_nama').value=p?.nama_pasien||''; $('p_nik').value=p?.nik||''; $('p_jk').value=p?.jenis_kelamin||''; $('p_lahir').value=toInputDate(p?.tanggal_lahir)||''; $('p_hp').value=p?.no_hp||''; $('p_alamat').value=p?.alamat||''; setPatientSchedule(p?.jadwal_hd||''); $('p_status').value=p?.status||'Aktif'; $('p_mulai').value=toInputDate(p?.tanggal_mulai_hd)||''; $('patientModal').classList.add('show');
 }
-function saveHDPre(token, data) {
-  data = data || {};
 
-  const access = getHDSessionAccess_(token, data.id_pasien);
-
-  validateRequired_(data, [
-    'tanggal_hd',
-    'bb_pre',
-    'td_pre',
-    'nadi_pre'
-  ]);
-
-  const tanggalHD = normalizeDateInput_(
-    data.tanggal_hd,
-    'Tanggal HD'
-  );
-
-  validateWeight_(
-    data.bb_pre,
-    'BB Pre'
-  );
-
-  validateBP_(
-    data.td_pre,
-    'TD Pre'
-  );
-
-  validatePulse_(
-    data.nadi_pre,
-    'Nadi Pre'
-  );
-
-  const lock = LockService.getScriptLock();
-  lock.waitLock(20000);
-
-  try {
-    const sh = getSS_().getSheetByName(SHEETS.HD);
-
-    if (!sh) {
-      throw new Error(
-        'Sheet Hemodialisis belum tersedia.'
-      );
-    }
-
-    const rows = readSheet_(SHEETS.HD);
-
-    const duplicate = rows.find(function(row) {
-      return String(row.id_pasien) === access.idPasien
-        && dateOnly_(row.tanggal_hd) === dateOnly_(tanggalHD)
-        && row.bb_pre !== ''
-        && (!row.bb_post ||
-            !row.td_post ||
-            !row.nadi_post);
-    });
-
-    if (duplicate) {
-      throw new Error(
-        'Pasien sudah memiliki sesi HD pada tanggal tersebut yang masih menunggu POST HD.'
-      );
-    }
-
-    const now = new Date();
-    const idHD = nextHdIdNoLock_();
-
-    // BB PRE:
-    // Jika 00 → simpan sebagai teks "00"
-    // Jika angka → simpan sebagai angka
-    const bbPre =
-      String(data.bb_pre).trim() === '00'
-        ? '00'
-        : Number(data.bb_pre);
-
-    sh.appendRow([
-      idHD,
-      tanggalHD,
-      access.idPasien,
-      bbPre,
-      String(data.td_pre).trim(),
-      Number(data.nadi_pre),
-      '',
-      '',
-      '',
-      now,
-      now
-    ]);
-
-    log_(
-      access.session.username,
-      access.session.role,
-      'CREATE_HD_PRE',
-      idHD +
-      ' / ' +
-      access.idPasien +
-      ' / ' +
-      formatDate_(tanggalHD)
-    );
-
-    return {
-      ok: true,
-      message:
-        'Data PRE HD berhasil disimpan. Setelah terapi selesai, lengkapi data POST HD.',
-      id_hd: idHD,
-      status: 'MENUNGGU_POST'
-    };
-
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function validateWeight_(value, label) {
-  const text = String(value).trim();
-
-  // 00 berarti pasien tidak ditimbang
-  if (text === '00') {
-    return;
-  }
-
-  const n = Number(value);
-
-  if (!isFinite(n) || n <= 0 || n > 500) {
-    throw new Error(
-      label +
-      ' harus berupa angka antara 0-500 kg atau 00 jika tidak ditimbang.'
-    );
-  }
-}
-  
-  async function submitPatient(e){
+async function submitPatient(e) {
   e.preventDefault();
-
-  const jadwalHd = $('p_jadwal').value;
-
-  if(!jadwalHd){
-    toast('Jadwal HD wajib dipilih.');
-    $('p_jadwal').focus();
-    return;
-  }
-
-  const data = {
-    id_pasien: $('p_id').value,
-    nama_pasien: $('p_nama').value.trim(),
-    nik: $('p_nik').value.trim(),
-    jenis_kelamin: $('p_jk').value,
-    tanggal_lahir: $('p_lahir').value,
-    alamat: $('p_alamat').value.trim(),
-    no_hp: $('p_hp').value.trim(),
-    jadwal_hd: jadwalHd,
-    status: $('p_status').value,
-    tanggal_mulai_hd: $('p_mulai').value
-  };
-
-  try{
-    const r = await server('savePatient', TOKEN, data);
-
-    closeModal('patientModal');
-
-    toast(r.message || 'Data pasien berhasil disimpan.');
-
-    await loadAll();
-
-  }catch(x){
-    toast(x.message || 'Gagal menyimpan data pasien.');
-  }
+  const scheduleOption=$('p_jadwal').value, manual=$('p_jadwal_manual').value.trim();
+  if(!scheduleOption){toast('Jadwal HD wajib dipilih.');return;}
+  if(scheduleOption==='Hari Lainnya'&&!manual){toast('Jadwal Hari Lainnya wajib diisi.');$('p_jadwal_manual').focus();return;}
+  const data={id_pasien:$('p_id').value,nama_pasien:$('p_nama').value.trim(),nik:$('p_nik').value.trim(),jenis_kelamin:$('p_jk').value,tanggal_lahir:$('p_lahir').value,alamat:$('p_alamat').value.trim(),no_hp:$('p_hp').value.trim(),jadwal_hd:scheduleOption==='Hari Lainnya'?manual:scheduleOption,status:$('p_status').value,tanggal_mulai_hd:$('p_mulai').value};
+  try{const r=await server('savePatient',TOKEN,data);closeModal('patientModal');toast(r.message||'Pasien tersimpan.');await loadPatients();await loadDashboard();}catch(x){toast(x?.message||'Gagal menyimpan pasien.');}
 }
 
-  function formatBP(input) {
-  let value = input.value.replace(/\D/g, '');
-
-  if (value.length > 6) {
-    value = value.substring(0, 6);
-  }
-
-  if (value.length > 3) {
-    value = value.substring(0, 3) + '/' + value.substring(3);
-  }
-
-  input.value = value;
+function resetHDForm(){
+  ['h_idhd','h_bbpre','h_tdpre','h_nadipre','h_bbpost','h_tdpost','h_nadipost'].forEach(id=>{if($(id))$(id).value='';});
+  $('h_mode').value='pre';
+  $('h_tanggal').value=localDateInput();
+  $('h_tanggal').max=localDateInput();
+  $('hdModalTitle').textContent='INPUT DATA HEMODIALISIS — PRE HD';
+  $('hdSubmitBtn').textContent='Simpan Data PRE HD';
+  $('preSection').style.display='block';
+  $('postSection').style.display='none';
+  ['h_bbpre','h_tdpre','h_nadipre'].forEach(id=>$(id).required=true);
+  ['h_bbpost','h_tdpost','h_nadipost'].forEach(id=>$(id).required=false);
 }
 
-function resetHDForm() {
-  // Reset semua nilai input
-  [
-    'h_idhd',
-    'h_bbpre',
-    'h_tdpre',
-    'h_nadipre',
-    'h_bbpost',
-    'h_tdpost',
-    'h_nadipost'
-  ].forEach(function(id) {
-    if ($(id)) {
-      $(id).value = '';
-    }
-  });
-
-  // Reset checkbox "Tidak ditimbang"
-  if ($('h_bbpre_no_weigh')) {
-    $('h_bbpre_no_weigh').checked = false;
-  }
-
-  if ($('h_bbpost_no_weigh')) {
-    $('h_bbpost_no_weigh').checked = false;
-  }
-
-  // Aktifkan kembali input BB
-  if ($('h_bbpre')) {
-    $('h_bbpre').disabled = false;
-  }
-
-  if ($('h_bbpost')) {
-    $('h_bbpost').disabled = false;
-  }
-
-  // Mode awal = PRE HD
-  $('h_mode').value = 'pre';
-
-  // Tanggal default hari ini
-  $('h_tanggal').value = localDateInput();
-  $('h_tanggal').max = localDateInput();
-
-  // Judul modal
-  $('hdModalTitle').textContent =
-    'INPUT DATA HEMODIALISIS — PRE HD';
-
-  // Tombol simpan
-  $('hdSubmitBtn').textContent =
-    'Simpan Data PRE HD';
-
-  // Tampilkan PRE, sembunyikan POST
-  $('preSection').style.display = 'block';
-  $('postSection').style.display = 'none';
-
-  // Field PRE wajib
-  [
-    'h_bbpre',
-    'h_tdpre',
-    'h_nadipre'
-  ].forEach(function(id) {
-    if ($(id)) {
-      $(id).required = true;
-    }
-  });
-
-  // Field POST tidak wajib pada tahap PRE
-  [
-    'h_bbpost',
-    'h_tdpost',
-    'h_nadipost'
-  ].forEach(function(id) {
-    if ($(id)) {
-      $(id).required = false;
-    }
-  });
-}
-  
 function openHD(){
   resetHDForm();
   const patient=String(ME?.role||'').trim().toLowerCase()==='pasien';
@@ -1483,10 +560,7 @@ function openHD(){
 
 function openHDPost(idHD){
   const row=(HISTORY||[]).find(x=>String(x.id_hd)===String(idHD));
-  if(!row){
-    toast('Sesi HD tidak ditemukan. Muat ulang Dashboard lalu coba lagi.');
-    return;
-  }
+  if(!row){toast('Sesi HD tidak ditemukan.');return;}
   const patient=String(ME?.role||'').trim().toLowerCase()==='pasien';
   $('h_mode').value='post';
   $('h_idhd').value=row.id_hd||'';
@@ -1564,9 +638,7 @@ function tableHD(rows,dashboard){
   if(!rows?.length)return'<div class="empty">Belum ada data HD.</div>';
   return`<table class="table"><thead><tr><th>Tanggal</th><th>ID Pasien</th><th>Nama</th><th>BB Pre</th><th>TD Pre</th><th>Nadi Pre</th><th>BB Post</th><th>TD Post</th><th>Nadi Post</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${rows.map(x=>{
     const complete=x.bb_post&&x.td_post&&x.nadi_post;
-    const action=complete
-      ? '<span class="badge badge-success">Selesai</span>'
-      : `<button class="btn btn-primary btn-small" type="button" onclick="openHDPost('${esc(x.id_hd)}')">Lengkapi Post</button>`;
+    const action=complete?'<span class="badge badge-success">Selesai</span>':(!dashboard?`<button class="btn btn-primary btn-small" type="button" onclick="openHDPost('${esc(x.id_hd)}')">Lengkapi POST</button>`:'<span class="badge badge-warning">Menunggu POST</span>');
     return`<tr><td>${fmt(x.tanggal_hd)}</td><td>${esc(x.id_pasien)}</td><td>${esc(x.nama_pasien||patientName(x.id_pasien))}</td><td>${esc(x.bb_pre||'-')}</td><td>${esc(x.td_pre||'-')}</td><td>${esc(x.nadi_pre||'-')}</td><td>${esc(x.bb_post||'-')}</td><td>${esc(x.td_post||'-')}</td><td>${esc(x.nadi_post||'-')}</td><td>${complete?'<span class="badge badge-success">Lengkap</span>':'<span class="badge badge-warning">Menunggu POST</span>'}</td><td>${action}</td></tr>`;
   }).join('')}</tbody></table>`;
 }
@@ -1667,47 +739,7 @@ function togglePassword(id,btn){
   const show=el.type==='password'; el.type=show?'text':'password';
   if(btn){btn.textContent=show?'🙈':'👁';btn.setAttribute('aria-label',show?'Sembunyikan password':'Tampilkan password');btn.setAttribute('title',show?'Sembunyikan password':'Tampilkan password');}
 }
-
-function toggleManualSchedule(){
-  const wrap = $('manualScheduleWrap');
-  const manual = $('p_jadwal_manual');
-
-  if(wrap){
-    wrap.classList.add('hidden');
-  }
-
-  if(manual){
-    manual.required = false;
-    manual.value = '';
-  }
-}
-
-
-function setPatientSchedule(value){
-  const schedules = [
-    'Senin dan Kamis',
-    "Selasa dan Jum'at",
-    'Rabu dan Sabtu',
-    'Setiap Senin',
-    'Setiap Selasa',
-    'Setiap Rabu',
-    'Setiap Kamis',
-    "Setiap Jum'at",
-    'Setiap Sabtu',
-    'Setiap Minggu'
-  ];
-
-  const v = String(value || '').trim();
-
-  if(schedules.includes(v)){
-    $('p_jadwal').value = v;
-  }else{
-    $('p_jadwal').value = '';
-  }
-
-  toggleManualSchedule();
-}
-
+function toggleManualSchedule(){const opt=$('p_jadwal')?.value,wrap=$('manualScheduleWrap'),manual=$('p_jadwal_manual');if(!wrap||!manual)return;const other=opt==='Hari Lainnya';wrap.classList.toggle('hidden',!other);manual.required=other;if(!other)manual.value='';}
 function setPatientSchedule(value){const fixed=['Senin dan Kamis',"Selasa dan Jum'at",'Rabu dan Sabtu'];const v=String(value||'');if(fixed.includes(v)){$('p_jadwal').value=v;$('p_jadwal_manual').value='';}else if(v){$('p_jadwal').value='Hari Lainnya';$('p_jadwal_manual').value=v;}else{$('p_jadwal').value='';$('p_jadwal_manual').value='';}toggleManualSchedule();}
 
 function openUser(u){
