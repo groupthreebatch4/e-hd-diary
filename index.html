@@ -1202,8 +1202,135 @@ function openPatient(p) {
   $('patientModalTitle').textContent=p?'Ubah Data Pasien':'Tambah Data Pasien';
   $('p_id').value=p?.id_pasien||''; $('p_id_view').value=p?.id_pasien||'Otomatis'; $('p_nama').value=p?.nama_pasien||''; $('p_nik').value=p?.nik||''; $('p_jk').value=p?.jenis_kelamin||''; $('p_lahir').value=toInputDate(p?.tanggal_lahir)||''; $('p_hp').value=p?.no_hp||''; $('p_alamat').value=p?.alamat||''; setPatientSchedule(p?.jadwal_hd||''); $('p_status').value=p?.status||'Aktif'; $('p_mulai').value=toInputDate(p?.tanggal_mulai_hd)||''; $('patientModal').classList.add('show');
 }
+function saveHDPre(token, data) {
+  data = data || {};
 
-async function submitPatient(e){
+  const access = getHDSessionAccess_(token, data.id_pasien);
+
+  validateRequired_(data, [
+    'tanggal_hd',
+    'bb_pre',
+    'td_pre',
+    'nadi_pre'
+  ]);
+
+  const tanggalHD = normalizeDateInput_(
+    data.tanggal_hd,
+    'Tanggal HD'
+  );
+
+  validateWeight_(
+    data.bb_pre,
+    'BB Pre'
+  );
+
+  validateBP_(
+    data.td_pre,
+    'TD Pre'
+  );
+
+  validatePulse_(
+    data.nadi_pre,
+    'Nadi Pre'
+  );
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+
+  try {
+    const sh = getSS_().getSheetByName(SHEETS.HD);
+
+    if (!sh) {
+      throw new Error(
+        'Sheet Hemodialisis belum tersedia.'
+      );
+    }
+
+    const rows = readSheet_(SHEETS.HD);
+
+    const duplicate = rows.find(function(row) {
+      return String(row.id_pasien) === access.idPasien
+        && dateOnly_(row.tanggal_hd) === dateOnly_(tanggalHD)
+        && row.bb_pre !== ''
+        && (!row.bb_post ||
+            !row.td_post ||
+            !row.nadi_post);
+    });
+
+    if (duplicate) {
+      throw new Error(
+        'Pasien sudah memiliki sesi HD pada tanggal tersebut yang masih menunggu POST HD.'
+      );
+    }
+
+    const now = new Date();
+    const idHD = nextHdIdNoLock_();
+
+    // BB PRE:
+    // Jika 00 → simpan sebagai teks "00"
+    // Jika angka → simpan sebagai angka
+    const bbPre =
+      String(data.bb_pre).trim() === '00'
+        ? '00'
+        : Number(data.bb_pre);
+
+    sh.appendRow([
+      idHD,
+      tanggalHD,
+      access.idPasien,
+      bbPre,
+      String(data.td_pre).trim(),
+      Number(data.nadi_pre),
+      '',
+      '',
+      '',
+      now,
+      now
+    ]);
+
+    log_(
+      access.session.username,
+      access.session.role,
+      'CREATE_HD_PRE',
+      idHD +
+      ' / ' +
+      access.idPasien +
+      ' / ' +
+      formatDate_(tanggalHD)
+    );
+
+    return {
+      ok: true,
+      message:
+        'Data PRE HD berhasil disimpan. Setelah terapi selesai, lengkapi data POST HD.',
+      id_hd: idHD,
+      status: 'MENUNGGU_POST'
+    };
+
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function validateWeight_(value, label) {
+  const text = String(value).trim();
+
+  // 00 berarti pasien tidak ditimbang
+  if (text === '00') {
+    return;
+  }
+
+  const n = Number(value);
+
+  if (!isFinite(n) || n <= 0 || n > 500) {
+    throw new Error(
+      label +
+      ' harus berupa angka antara 0-500 kg atau 00 jika tidak ditimbang.'
+    );
+  }
+}
+  
+  async function submitPatient(e){
   e.preventDefault();
 
   const jadwalHd = $('p_jadwal').value;
@@ -1330,6 +1457,7 @@ function resetHDForm() {
     }
   });
 }
+  
 function openHD(){
   resetHDForm();
   const patient=String(ME?.role||'').trim().toLowerCase()==='pasien';
