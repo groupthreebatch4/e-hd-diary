@@ -136,14 +136,10 @@
 /* Area batang */
 .session-chart-bars {
   height: 240px;
-
   display: flex;
   align-items: flex-end;
-
   gap: 5px;
-
   position: relative;
-
   border-bottom: 1px solid #cbd5e1;
 }
 
@@ -151,14 +147,10 @@
 .session-chart-bars::before,
 .session-chart-bars::after {
   content: "";
-
   position: absolute;
-
   left: 0;
   right: 0;
-
   pointer-events: none;
-
   border-top: 1px dashed #dbe7df;
 }
 
@@ -378,7 +370,7 @@
 
   margin-top: -3px;
 
-  font-size: 10px;
+  font-size: 11px;
 
   color: #64748b;
 }
@@ -479,7 +471,7 @@
         </div>
         <div class="dashboard-grid dashboard-middle">
           <div class="panel">
-            <div class="panel-head"><b>GRAFIK JUMLAH SESI HD PER HARI (1 BULAN TERAKHIR)</b><span id="sessionChartPeriod" style="font-size:11px;color:#64748b">-</span></div>
+            <div class="panel-head"><b>GRAFIK JUMLAH SESI HD PER HARI</b><span id="sessionChartPeriod" style="font-size:11px;color:#64748b">-</span></div>
             <div id="sessionMonthChart" class="chart-wrap chart-month-wrap"></div>
           </div>
           <div class="panel">
@@ -1031,7 +1023,7 @@ function renderSessionMonthChart(rows) {
     </div>
 
     <div class="session-chart-caption">
-      Jumlah sesi hemodialisis per hari
+      Jumlah Sesi Hemodialisis Per Hari
     </div>
 
   `;
