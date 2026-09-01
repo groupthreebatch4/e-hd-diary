@@ -56,7 +56,81 @@
 /* ===== V4 EDUCATION POSTER ===== */
 .edu-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}.edu-tab{border:1px solid #dbe8f3;background:#fff;color:#23415e;border-radius:12px;padding:11px 9px;min-height:74px;text-align:left;display:flex;gap:8px;align-items:center;transition:.2s}.edu-tab span{font-size:21px}.edu-tab b{font-size:11px;line-height:1.35}.edu-tab:hover{border-color:#9bc8f2;transform:translateY(-1px)}.edu-tab.active{background:linear-gradient(135deg,#eaf5ff,#f5fbff);border:2px solid #1677ff;color:#0b63ce;box-shadow:0 6px 18px rgba(22,119,255,.12)}.edu-tab.disabled{opacity:.55;cursor:not-allowed}.education-viewer{background:#fff;border:1px solid #dce8f2;border-radius:18px;box-shadow:0 8px 28px rgba(31,70,112,.08);padding:16px}.poster-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}.poster-head h3{margin:0;font-size:18px;color:#17324d}.poster-head p{margin:5px 0 0;color:#71839a;font-size:12px}.poster-frame{display:flex;justify-content:center;align-items:center;background:#f5f8fb;border:1px solid #e1eaf2;border-radius:12px;padding:12px;min-height:320px;overflow:auto}.poster-frame img{display:block;width:auto;max-width:100%;height:auto;max-height:1100px;object-fit:contain;box-shadow:0 5px 20px rgba(0,0,0,.08);background:#fff}.edu-empty-poster{min-height:320px;width:100%;display:grid;place-items:center;text-align:center;padding:40px;color:#71839a}.edu-empty-poster h3{color:#294765;margin:8px 0}.edu-empty-poster p{margin:0;font-size:12px}.edu-disclaimer{margin-top:16px}.password-toggle{cursor:pointer}.password-toggle:focus{outline:2px solid #6ab0ff;outline-offset:1px}
 @media(max-width:1100px){.edu-tabs{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.edu-tabs{grid-template-columns:1fr 1fr}.poster-head{align-items:flex-start;flex-direction:column}.poster-head .btn{width:100%;text-align:center}.poster-frame img{max-height:none;width:100%}}
-.role-hd{display:flex}.patient-hd-note{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef7ff;border:1px solid #d6eaff;color:#245274;font-size:11px;line-height:1.5}.hd-patient-locked{background:#f5f8fb !important;color:#4b647b !important} .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-success{background:#dcfce7;color:#166534}.badge-warning{background:#fef3c7;color:#92400e}.btn-small{padding:7px 10px;font-size:11px}</style>
+.role-hd{display:flex}.patient-hd-note{margin:10px 0;padding:10px 12px;border-radius:10px;background:#eef7ff;border:1px solid #d6eaff;color:#245274;font-size:11px;line-height:1.5}.hd-patient-locked{background:#f5f8fb !important;color:#4b647b !important} .badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}.badge-success{background:#dcfce7;color:#166534}.badge-warning{background:#fef3c7;color:#92400e}.btn-small{padding:7px 10px;font-size:11px}
+/* Grafik batang jumlah sesi HD */
+.session-chart-scroll{
+  width:100%;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding:8px 6px 4px;
+  box-sizing:border-box;
+}
+.session-chart-area{
+  position:relative;
+  min-width:760px;
+  height:292px;
+  padding:22px 10px 0 58px;
+  box-sizing:border-box;
+}
+.session-chart-ytitle{
+  position:absolute;
+  left:8px;
+  top:132px;
+  transform:rotate(-90deg);
+  font-size:10px;
+  color:#64748b;
+  white-space:nowrap;
+}
+.session-chart-bars{
+  height:238px;
+  display:flex;
+  align-items:flex-end;
+  gap:5px;
+  border-bottom:1px solid #cbd5e1;
+}
+.session-bar-item{
+  flex:1 0 18px;
+  min-width:18px;
+  height:238px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  position:relative;
+}
+.session-bar{
+  width:100%;
+  max-width:24px;
+  min-height:2px;
+  border-radius:5px 5px 0 0;
+  background:linear-gradient(to top,#2563eb,#60a5fa);
+  transition:transform .15s ease,opacity .15s ease;
+}
+.session-bar-item:hover .session-bar{
+  transform:translateY(-3px);
+  opacity:.88;
+}
+.session-bar-value{
+  position:absolute;
+  bottom:calc(24px + var(--bar-extra, 0px));
+  transform:translateY(-2px);
+  font-size:9px;
+  font-weight:700;
+  color:#334155;
+  white-space:nowrap;
+}
+.session-bar-label{
+  height:24px;
+  padding-top:6px;
+  font-size:9px;
+  color:#64748b;
+  white-space:nowrap;
+}
+@media(max-width:900px){
+  .session-chart-area{min-width:700px;}
+}
+
+</style>
 </head>
 <body><div id="loginView" class="login">
   <div class="login-card">
@@ -209,7 +283,7 @@
           </div>
           <div class="hd-vital-field">
             <label>TD Pre (mmHg) *</label>
-            <input id="h_tdpre" class="input" placeholder="120/80" pattern="[0-9]{2,3}\s*/\s*[0-9]{2,3}" inputmode="text">
+            <input id="h_tdpre" class="input" placeholder="120/80" pattern="[0-9]{2,3}\s*/\s*[0-9]{2,3}" inputmode="text" type="text">
           </div>
           <div class="hd-vital-field">
             <label>Nadi Pre (x/menit) *</label>
@@ -226,7 +300,7 @@
           </div>
           <div class="hd-vital-field">
             <label>TD Post (mmHg) *</label>
-            <input id="h_tdpost" class="input" placeholder="120/80" pattern="[0-9]{2,3}\s*/\s*[0-9]{2,3}" inputmode="text">
+            <input id="h_tdpost" class="input" placeholder="120/80" pattern="[0-9]{2,3}\s*/\s*[0-9]{2,3}" inputmode="text" type="text">
           </div>
           <div class="hd-vital-field">
             <label>Nadi Post (x/menit) *</label>
@@ -443,7 +517,12 @@ async function loadDashboard() {
   $('stAktif').textContent = s.pasienAktif || 0;
   $('stToday').textContent = s.jadwalHariIni || 0;
   $('stPostIncomplete').textContent = s.postBelumLengkap || 0;
-  $('recentHD').innerHTML = tableHD(r?.recentHD || [], true);
+
+  // Simpan sesi terbaru ke HISTORY agar tombol "Lengkapi Post"
+  // pada Dashboard dapat menemukan baris berdasarkan id_hd.
+  HISTORY = Array.isArray(r?.recentHD) ? r.recentHD : [];
+  $('recentHD').innerHTML = tableHD(HISTORY, true);
+
   renderSessionMonthChart(r?.sessionDaily || []);
   renderScheduleSummary(r?.scheduleSummary || []);
 }
@@ -451,20 +530,56 @@ async function loadDashboard() {
 function renderSessionMonthChart(rows) {
   const box = $('sessionMonthChart');
   if (!box) return;
+
   const data = Array.isArray(rows) ? rows : [];
-  if (!data.length) { box.innerHTML = '<div class="empty">Belum ada data sesi HD pada periode ini.</div>'; return; }
-  const total = data.reduce((sum,item)=>sum+Number(item.count||0),0);
-  const max = Math.max(1,...data.map(item=>Number(item.count||0)));
-  const w=760,h=300,padL=48,padR=18,padT=22,padB=42,plotW=w-padL-padR,plotH=h-padT-padB;
-  const x=i=>padL+plotW*i/Math.max(data.length-1,1);
-  const y=v=>padT+plotH-(Number(v||0)/max)*plotH;
-  const grid=[0,.25,.5,.75,1].map(ratio=>{const value=Math.round(max*ratio),yy=y(value);return `<line x1="${padL}" x2="${w-padR}" y1="${yy}" y2="${yy}"/><text x="${padL-8}" y="${yy+4}" text-anchor="end">${value}</text>`}).join('');
-  const points=data.map((item,i)=>`${x(i)},${y(item.count)}`).join(' ');
-  const dots=data.map((item,i)=>`<circle class="month-dot" cx="${x(i)}" cy="${y(item.count)}" r="3.5"><title>${esc(item.label)}: ${Number(item.count||0)} sesi</title></circle>`).join('');
-  const step=data.length>15?Math.ceil(data.length/8):2;
-  const labels=data.map((item,i)=>{if(i!==0&&i!==data.length-1&&i%step!==0)return '';return `<text x="${x(i)}" y="${h-14}" text-anchor="middle">${esc(item.label)}</text>`}).join('');
-  box.innerHTML=`<svg class="month-chart-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="Grafik jumlah sesi hemodialisis per hari selama satu bulan terakhir"><g class="chart-grid">${grid}</g><polyline class="month-line" points="${points}"/>${dots}${labels}</svg><div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px 0;font-size:11px;color:#64748b"><span>Total sesi periode ini</span><b style="font-size:18px;color:var(--primary)">${total}</b></div>`;
-  if($('sessionChartPeriod')) $('sessionChartPeriod').textContent=(data[0]?.fullDate&&data[data.length-1]?.fullDate)?`${data[0].fullDate} – ${data[data.length-1].fullDate}`:'1 bulan terakhir';
+
+  if (!data.length) {
+    box.innerHTML =
+      '<div class="empty">Belum ada data sesi HD pada periode ini.</div>';
+    return;
+  }
+
+  const maxValue = Math.max(
+    1,
+    ...data.map(function(x) {
+      return Number(x.count || 0);
+    })
+  );
+
+  const bars = data.map(function(item, index) {
+    const value = Number(item.count || 0);
+    const height = value > 0
+      ? Math.max(4, Math.round((value / maxValue) * 190))
+      : 2;
+
+    const showLabel =
+      index === 0 ||
+      index === data.length - 1 ||
+      index % (data.length > 20 ? 3 : 1) === 0;
+
+    const dateLabel = esc(item.label || item.fullDate || item.date || '-');
+    const tooltipDate = esc(item.fullDate || item.date || item.label || '-');
+
+    return `
+      <div class="session-bar-item"
+           title="${tooltipDate}: ${value} sesi HD">
+        <div class="session-bar-value">${value}</div>
+        <div class="session-bar"
+             style="height:${height}px"
+             aria-label="${tooltipDate}: ${value} sesi HD"></div>
+        <div class="session-bar-label">${showLabel ? dateLabel : ''}</div>
+      </div>
+    `;
+  }).join('');
+
+  box.innerHTML = `
+    <div class="session-chart-scroll">
+      <div class="session-chart-ytitle">Jumlah Sesi</div>
+      <div class="session-chart-area">
+        <div class="session-chart-bars">${bars}</div>
+      </div>
+    </div>
+  `;
 }
 
 function renderScheduleSummary(rows) {
@@ -560,7 +675,10 @@ function openHD(){
 
 function openHDPost(idHD){
   const row=(HISTORY||[]).find(x=>String(x.id_hd)===String(idHD));
-  if(!row){toast('Sesi HD tidak ditemukan.');return;}
+  if(!row){
+    toast('Sesi HD tidak ditemukan. Muat ulang Dashboard lalu coba lagi.');
+    return;
+  }
   const patient=String(ME?.role||'').trim().toLowerCase()==='pasien';
   $('h_mode').value='post';
   $('h_idhd').value=row.id_hd||'';
@@ -636,12 +754,10 @@ function openHistory(id){showPage('history');if($('historyPatientFilter'))$('his
 function renderHistoryProfile(p){$('historyProfile').innerHTML=p?`<div class="profile"><div class="profile-card"><div style="color:#64748b;font-size:11px">ID PASIEN</div><div class="profile-id">${esc(p.id_pasien)}</div><b>${esc(p.nama_pasien)}</b><div style="margin-top:8px">${badge(p.status)}</div></div><div class="profile-card"><div class="kv"><div>NIK</div><div>${esc(p.nik)}</div><div>Jenis Kelamin</div><div>${esc(p.jenis_kelamin)}</div><div>Tanggal Lahir</div><div>${fmt(p.tanggal_lahir)}</div><div>Jadwal HD</div><div>${esc(p.jadwal_hd)}</div><div>Tanggal Mulai HD</div><div>${fmt(p.tanggal_mulai_hd)}</div><div>No. HP</div><div>${esc(p.no_hp)}</div><div>Alamat</div><div>${esc(p.alamat)}</div></div></div></div>`:'';}
 function tableHD(rows,dashboard){
   if(!rows?.length)return'<div class="empty">Belum ada data HD.</div>';
-  return`<table class="table"><thead><tr><th>Tanggal</th><th>ID Pasien</th><th>Nama</th><th>BB Pre</th><th>TD Pre</th><th>Nadi Pre</th><th>BB Post</th><th>TD Post</th><th>Nadi Post</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${rows.map(x=>{
+  return`<table class="table"><thead><tr><th>Tanggal</th><th>ID Pasien</th><th>Nama</th><th>BB Pre</th><th>TD Pre</th><th>Nadi Pre</th><th>BB Post</th><th>TD Post</th><th>Nadi Post</th><th>Status</th></tr></thead><tbody>${rows.map(x=>{
     const complete=x.bb_post&&x.td_post&&x.nadi_post;
-    const action=complete
-      ? '<span class="badge badge-success">Selesai</span>'
-      : `<button class="btn btn-primary btn-small" type="button" onclick="openHDPost('${esc(x.id_hd)}')">Lengkapi Post</button>`;
-    return`<tr><td>${fmt(x.tanggal_hd)}</td><td>${esc(x.id_pasien)}</td><td>${esc(x.nama_pasien||patientName(x.id_pasien))}</td><td>${esc(x.bb_pre||'-')}</td><td>${esc(x.td_pre||'-')}</td><td>${esc(x.nadi_pre||'-')}</td><td>${esc(x.bb_post||'-')}</td><td>${esc(x.td_post||'-')}</td><td>${esc(x.nadi_post||'-')}</td><td>${complete?'<span class="badge badge-success">Lengkap</span>':'<span class="badge badge-warning">Menunggu POST</span>'}</td><td>${action}</td></tr>`;
+
+    return`<tr><td>${fmt(x.tanggal_hd)}</td><td>${esc(x.id_pasien)}</td><td>${esc(x.nama_pasien||patientName(x.id_pasien))}</td><td>${esc(x.bb_pre||'-')}</td><td>${esc(x.td_pre||'-')}</td><td>${esc(x.nadi_pre||'-')}</td><td>${esc(x.bb_post||'-')}</td><td>${esc(x.td_post||'-')}</td><td>${esc(x.nadi_post||'-')}</td><td>${complete?'<span class="badge badge-success">Lengkap</span>':'<span class="badge badge-warning">Menunggu POST</span>'}</td></tr>`;
   }).join('')}</tbody></table>`;
 }
 function patientName(id){return PATIENTS.find(p=>p.id_pasien===id)?.nama_pasien||'-';}
