@@ -1432,16 +1432,166 @@ async function loadPatientAnalytics(id){try{const r=await server('getAnalytics',
 function renderAnalyticsChart(data){const box=$('patientAnalytics');if(!box)return;const rows=(data||[]).slice(-8);if(!rows.length){box.innerHTML='<div class="empty">Belum ada data untuk grafik.</div>';return;}box.innerHTML=rows.map(x=>`<div class="mini-bar-row"><span>${esc(fmt(x.tanggal_hd).slice(0,5))}</span><div class="mini-bars"><i style="width:${Math.min(100,(Number(x.bb_pre)||0)*1.3)}%"></i><em style="width:${Math.min(100,(Number(x.bb_post)||0)*1.3)}%"></em></div><b>${esc(x.bb_pre||'-')} / ${esc(x.bb_post||'-')} kg</b></div>`).join('');}
 function openHistory(id){showPage('history');if($('historyPatientFilter'))$('historyPatientFilter').value=id;loadHistoryFromHistory();}
 function renderHistoryProfile(p){$('historyProfile').innerHTML=p?`<div class="profile"><div class="profile-card"><div style="color:#64748b;font-size:11px">ID PASIEN</div><div class="profile-id">${esc(p.id_pasien)}</div><b>${esc(p.nama_pasien)}</b><div style="margin-top:8px">${badge(p.status)}</div></div><div class="profile-card"><div class="kv"><div>NIK</div><div>${esc(p.nik)}</div><div>Jenis Kelamin</div><div>${esc(p.jenis_kelamin)}</div><div>Tanggal Lahir</div><div>${fmt(p.tanggal_lahir)}</div><div>Jadwal HD</div><div>${esc(p.jadwal_hd)}</div><div>Tanggal Mulai HD</div><div>${fmt(p.tanggal_mulai_hd)}</div><div>No. HP</div><div>${esc(p.no_hp)}</div><div>Alamat</div><div>${esc(p.alamat)}</div></div></div></div>`:'';}
-function tableHD(rows,dashboard){
-  if(!rows?.length)return'<div class="empty">Belum ada data HD.</div>';
-  return`<table class="table"><thead><tr><th>Tanggal</th><th>ID Pasien</th><th>Nama</th><th>BB Pre</th><th>TD Pre</th><th>Nadi Pre</th><th>BB Post</th><th>TD Post</th><th>Nadi Post</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${rows.map(x=>{
-    const complete=x.bb_post&&x.td_post&&x.nadi_post;
-    const action=complete
-      ? '<span class="badge badge-success">Selesai</span>'
-      : `<button class="btn btn-primary btn-small" type="button" onclick="openHDPost('${esc(x.id_hd)}')">Lengkapi Post</button>`;
-    return`<tr><td>${fmt(x.tanggal_hd)}</td><td>${esc(x.id_pasien)}</td><td>${esc(x.nama_pasien||patientName(x.id_pasien))}</td><td>${esc(x.bb_pre||'-')}</td><td>${esc(x.td_pre||'-')}</td><td>${esc(x.nadi_pre||'-')}</td><td>${esc(x.bb_post||'-')}</td><td>${esc(x.td_post||'-')}</td><td>${esc(x.nadi_post||'-')}</td><td>${complete?'<span class="badge badge-success">Lengkap</span>':'<span class="badge badge-warning">Menunggu POST</span>'}</td><td>${action}</td></tr>`;
-  }).join('')}</tbody></table>`;
+
+  function tableHD(rows, dashboard) {
+  if (!rows || !rows.length) {
+    return '<div class="empty">Belum ada data HD.</div>';
+  }
+
+  return `
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Tanggal</th>
+          <th>ID Pasien</th>
+          <th>Nama</th>
+          <th>BB Pre</th>
+          <th>TD Pre</th>
+          <th>Nadi Pre</th>
+          <th>BB Post</th>
+          <th>TD Post</th>
+          <th>Nadi Post</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        ${rows.map(function(x) {
+
+          const complete =
+            x.bb_post !== '' &&
+            x.bb_post !== null &&
+            x.bb_post !== undefined &&
+            x.td_post !== '' &&
+            x.td_post !== null &&
+            x.td_post !== undefined &&
+            x.nadi_post !== '' &&
+            x.nadi_post !== null &&
+            x.nadi_post !== undefined;
+
+          let status;
+          let action;
+
+          if (complete) {
+
+            status = `
+              <span class="badge badge-success">
+                Lengkap
+              </span>
+            `;
+
+            action = `
+              <span style="
+                color:#64748b;
+                font-size:12px;
+              ">
+                —
+              </span>
+            `;
+
+          } else {
+
+            status = `
+              <span class="badge badge-warning">
+                Menunggu POST
+              </span>
+            `;
+
+            action = `
+              <button
+                class="btn btn-primary btn-small"
+                type="button"
+                onclick="openHDPost('${esc(x.id_hd)}')">
+                Lengkapi Post
+              </button>
+            `;
+          }
+
+          return `
+            <tr>
+
+              <td>
+                ${fmt(x.tanggal_hd)}
+              </td>
+
+              <td>
+                ${esc(x.id_pasien || '-')}
+              </td>
+
+              <td>
+                ${esc(
+                  x.nama_pasien ||
+                  patientName(x.id_pasien) ||
+                  '-'
+                )}
+              </td>
+
+              <td>
+                ${esc(
+                  x.bb_pre !== '' &&
+                  x.bb_pre !== null &&
+                  x.bb_pre !== undefined
+                    ? x.bb_pre
+                    : '-'
+                )}
+              </td>
+
+              <td>
+                ${esc(x.td_pre || '-')}
+              </td>
+
+              <td>
+                ${esc(
+                  x.nadi_pre !== '' &&
+                  x.nadi_pre !== null &&
+                  x.nadi_pre !== undefined
+                    ? x.nadi_pre
+                    : '-'
+                )}
+              </td>
+
+              <td>
+                ${esc(
+                  x.bb_post !== '' &&
+                  x.bb_post !== null &&
+                  x.bb_post !== undefined
+                    ? x.bb_post
+                    : '-'
+                )}
+              </td>
+
+              <td>
+                ${esc(x.td_post || '-')}
+              </td>
+
+              <td>
+                ${esc(
+                  x.nadi_post !== '' &&
+                  x.nadi_post !== null &&
+                  x.nadi_post !== undefined
+                    ? x.nadi_post
+                    : '-'
+                )}
+              </td>
+
+              <td>
+                ${status}
+              </td>
+
+              <td>
+                ${action}
+              </td>
+
+            </tr>
+          `;
+
+        }).join('')}
+      </tbody>
+    </table>
+  `;
 }
+
 function patientName(id){return PATIENTS.find(p=>p.id_pasien===id)?.nama_pasien||'-';}
 
 async function loadEducation(){
