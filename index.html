@@ -1059,32 +1059,101 @@ function renderScheduleSummary(rows) {
   $('scheduleSummary').innerHTML=data.map(item=>`<div class="schedule-row"><div class="schedule-day"><span class="schedule-dot"></span><b>${esc(item.day||'-')}</b></div><div class="schedule-count">${Number(item.count||0)}<span> pasien</span></div></div>`).join('')+`<div class="schedule-total"><span>Total pasien aktif</span><b>${total}</b></div>`;
 }
 
-function loadPatients() {
-  google.script.run
-    .withSuccessHandler(function(data) {
+<script>
 
-      window.PATIENTS = Array.isArray(data) ? data : [];
+  // fungsi-fungsi JavaScript Anda
+  // ...
 
-      console.log('Data pasien berhasil dimuat:', window.PATIENTS.length);
+  function loadPatients() {
+    google.script.run
+      .withSuccessHandler(function(data) {
 
-      fillPatientSelects();
+        window.PATIENTS = Array.isArray(data) ? data : [];
 
-    })
-    .withFailureHandler(function(error) {
+        console.log(
+          'Data pasien berhasil dimuat:',
+          window.PATIENTS.length
+        );
 
-      console.error('Gagal memuat pasien:', error);
+        fillPatientSelects();
 
-      window.PATIENTS = [];
+      })
+      .withFailureHandler(function(error) {
 
-      showToast(
-        'Gagal memuat data pasien: ' + error.message,
-        'error'
-      );
+        console.error(
+          'Gagal memuat pasien:',
+          error
+        );
 
-    })
-    .getPatients();
-}
-async function loadUsersSafe() {
+        window.PATIENTS = [];
+
+        alert(
+          'Gagal memuat data pasien: ' +
+          error.message
+        );
+
+      })
+      .getPatients();
+  }
+
+
+  function fillPatientSelects() {
+
+    const patients = window.PATIENTS || [];
+
+    const opts =
+      '<option value="">Pilih pasien...</option>' +
+      patients.map(function(p) {
+        return `
+          <option value="${esc(p.id_pasien)}">
+            ${esc(p.id_pasien)} — ${esc(p.nama_pasien)}
+          </option>
+        `;
+      }).join('');
+
+    [
+      'h_pasien',
+      'hdPatientFilter',
+      'historyPatientFilter',
+      'u_pasien'
+    ].forEach(function(id) {
+
+      const el = $(id);
+
+      if (el) {
+        el.innerHTML = opts;
+      }
+
+    });
+
+    if (ME?.role === 'pasien') {
+
+      [
+        'h_pasien',
+        'hdPatientFilter',
+        'historyPatientFilter'
+      ].forEach(function(id) {
+
+        const el = $(id);
+
+        if (el) {
+          el.value = ME.id_pasien;
+          el.disabled = true;
+        }
+
+      });
+
+    }
+  }
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    loadPatients();
+  });
+
+</script>
+   
+   async function loadUsersSafe() {
   if (!['admin','perawat'].includes(ME.role)) { USERS=[]; return; }
   const r=await server('getUsers',TOKEN); USERS=r?.data||[]; renderUsers();
 }
@@ -1104,13 +1173,59 @@ function renderUsers() {
 }
 
 function fillPatientSelects() {
-  const opts='<option value="">Pilih pasien...</option>'+PATIENTS.map(p=>`<option value="${esc(p.id_pasien)}">${esc(p.id_pasien)} — ${esc(p.nama_pasien)}</option>`).join('');
-  ['','hdPatientFilter','historyPatientFilter','u_pasien'].forEach(id=>{if($(id))$(id).innerHTML=opts;});
-  if(ME?.role==='pasien'){
-    ['h_pasien','hdPatientFilter','historyPatientFilter'].forEach(id=>{if($(id)){ $(id).value=ME.id_pasien; $(id).disabled=true; }});
+
+  const patients = window.PATIENTS || [];
+
+  const opts =
+    '<option value="">Pilih pasien...</option>' +
+    patients.map(function(p) {
+      return `
+        <option value="${esc(p.id_pasien)}">
+          ${esc(p.id_pasien)} — ${esc(p.nama_pasien)}
+        </option>
+      `;
+    }).join('');
+
+  [
+    'h_pasien',
+    'hdPatientFilter',
+    'historyPatientFilter',
+    'u_pasien'
+  ].forEach(function(id) {
+
+    const el = $(id);
+
+    if (el) {
+      el.innerHTML = opts;
+    }
+
+  });
+
+  /*
+   * Jika login sebagai pasien,
+   * otomatis pilih pasiennya sendiri.
+   */
+  if (ME?.role === 'pasien') {
+
+    [
+      'h_pasien',
+      'hdPatientFilter',
+      'historyPatientFilter'
+    ].forEach(function(id) {
+
+      const el = $(id);
+
+      if (el) {
+
+        el.value = ME.id_pasien;
+        el.disabled = true;
+
+      }
+
+    });
+
   }
 }
-
 function openPatient(p) {
   $('patientModalTitle').textContent=p?'Ubah Data Pasien':'Tambah Data Pasien';
   $('p_id').value=p?.id_pasien||''; $('p_id_view').value=p?.id_pasien||'Otomatis'; $('p_nama').value=p?.nama_pasien||''; $('p_nik').value=p?.nik||''; $('p_jk').value=p?.jenis_kelamin||''; $('p_lahir').value=toInputDate(p?.tanggal_lahir)||''; $('p_hp').value=p?.no_hp||''; $('p_alamat').value=p?.alamat||''; setPatientSchedule(p?.jadwal_hd||''); $('p_status').value=p?.status||'Aktif'; $('p_mulai').value=toInputDate(p?.tanggal_mulai_hd)||''; $('patientModal').classList.add('show');
