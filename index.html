@@ -850,23 +850,72 @@ async function refreshAll() {
   try { await loadAll(); toast('Data diperbarui.'); } catch(e) { toast(e?.message || 'Gagal memperbarui data.'); }
 }
 
+//async function loadDashboard() {
+//  const r = await server('getDashboard', TOKEN);
+//  const s = r?.stats || {};
+//  $('stTotal').textContent = s.totalPasien || 0;
+//  $('stAktif').textContent = s.pasienAktif || 0;
+//  $('stToday').textContent = s.jadwalHariIni || 0;
+//  $('stPostIncomplete').textContent = s.postBelumLengkap || 0;
+
+ // Simpan sesi terbaru ke HISTORY agar tombol "Lengkapi Post"
+  // pada Dashboard dapat menemukan baris berdasarkan id_hd.
+//  HISTORY = Array.isArray(r?.recentHD) ? r.recentHD : [];
+//  $('recentHD').innerHTML = tableHD(HISTORY, true);
+
+//  renderSessionMonthChart(r?.sessionDaily || []);
+//  renderScheduleSummary(r?.scheduleSummary || []);
+//}
+
 async function loadDashboard() {
   const r = await server('getDashboard', TOKEN);
+
   const s = r?.stats || {};
+
   $('stTotal').textContent = s.totalPasien || 0;
   $('stAktif').textContent = s.pasienAktif || 0;
   $('stToday').textContent = s.jadwalHariIni || 0;
   $('stPostIncomplete').textContent = s.postBelumLengkap || 0;
 
-  // Simpan sesi terbaru ke HISTORY agar tombol "Lengkapi Post"
-  // pada Dashboard dapat menemukan baris berdasarkan id_hd.
-  HISTORY = Array.isArray(r?.recentHD) ? r.recentHD : [];
-  $('recentHD').innerHTML = tableHD(HISTORY, true);
+  // =====================================================
+  // AKTIVITAS HEMODIALISIS HARI INI
+  // Hanya menampilkan sesi HD pada tanggal hari berjalan
+  // =====================================================
 
-  renderSessionMonthChart(r?.sessionDaily || []);
-  renderScheduleSummary(r?.scheduleSummary || []);
+  const allRecentHD =
+    Array.isArray(r?.recentHD)
+      ? r.recentHD
+      : [];
+
+  const today =
+    localDateInput();
+
+  const todayHD =
+    allRecentHD.filter(function(x) {
+      return toInputDate(x.tanggal_hd) === today;
+    });
+
+  // Simpan data hari ini ke HISTORY
+  // agar tombol "Lengkapi Post" dapat digunakan
+  HISTORY = todayHD;
+
+  // Tampilkan aktivitas HD hari ini
+  $('recentHD').innerHTML =
+    tableHD(HISTORY, true);
+
+  // =====================================================
+  // GRAFIK & JADWAL
+  // =====================================================
+
+  renderSessionMonthChart(
+    r?.sessionDaily || []
+  );
+
+  renderScheduleSummary(
+    r?.scheduleSummary || []
+  );
 }
-
+   
 function renderSessionMonthChart(rows) {
   const box = $('sessionMonthChart');
   if (!box) return;
