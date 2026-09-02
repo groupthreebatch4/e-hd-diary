@@ -52,7 +52,65 @@
 .report-empty{padding:35px;text-align:center;color:#7a8da2;font-size:12px}.report-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}.report-stat{padding:13px 15px;border-radius:14px;background:#f6faff;border:1px solid #e0edf8}.report-stat .n{font-size:20px;font-weight:900;color:#1677ff}.report-stat .l{font-size:10px;color:#6e8198;margin-top:3px}
 @media(max-width:950px){.report-filter-grid{grid-template-columns:1fr 1fr}.report-stat-row{grid-template-columns:1fr 1fr}}@media(max-width:600px){.report-filter-grid{grid-template-columns:1fr}.report-actions .btn{width:100%}}
 
+/* =====================================================
+   VIDEO RESPONSIVE - HP & DESKTOP
+   ===================================================== */
 
+.education-video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.education-video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  border: 0;
+  display: block;
+}
+  
+/* ===== Video Edikasi ===== */
+@media (max-width: 600px) {
+
+  .education-video-container {
+    width: 100%;
+    margin-top: 14px;
+    border-radius: 14px;
+  }
+
+  .education-video-title {
+    padding: 14px 16px;
+  }
+
+  .education-video-title h3 {
+    font-size: 17px;
+    line-height: 1.3;
+  }
+
+  .education-video-title p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .education-video-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
+  .education-video-frame iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+}
+  
 /* ===== V4 EDUCATION POSTER ===== */
 .edu-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}.edu-tab{border:1px solid #dbe8f3;background:#fff;color:#23415e;border-radius:12px;padding:11px 9px;min-height:74px;text-align:left;display:flex;gap:8px;align-items:center;transition:.2s}.edu-tab span{font-size:21px}.edu-tab b{font-size:11px;line-height:1.35}.edu-tab:hover{border-color:#9bc8f2;transform:translateY(-1px)}.edu-tab.active{background:linear-gradient(135deg,#eaf5ff,#f5fbff);border:2px solid #1677ff;color:#0b63ce;box-shadow:0 6px 18px rgba(22,119,255,.12)}.edu-tab.disabled{opacity:.55;cursor:not-allowed}.education-viewer{background:#fff;border:1px solid #dce8f2;border-radius:18px;box-shadow:0 8px 28px rgba(31,70,112,.08);padding:16px}.poster-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}.poster-head h3{margin:0;font-size:18px;color:#17324d}.poster-head p{margin:5px 0 0;color:#71839a;font-size:12px}.poster-frame{display:flex;justify-content:center;align-items:center;background:#f5f8fb;border:1px solid #e1eaf2;border-radius:12px;padding:12px;min-height:320px;overflow:auto}.poster-frame img{display:block;width:auto;max-width:100%;height:auto;max-height:1100px;object-fit:contain;box-shadow:0 5px 20px rgba(0,0,0,.08);background:#fff}.edu-empty-poster{min-height:320px;width:100%;display:grid;place-items:center;text-align:center;padding:40px;color:#71839a}.edu-empty-poster h3{color:#294765;margin:8px 0}.edu-empty-poster p{margin:0;font-size:12px}.edu-disclaimer{margin-top:16px}.password-toggle{cursor:pointer}.password-toggle:focus{outline:2px solid #6ab0ff;outline-offset:1px}
 @media(max-width:1100px){.edu-tabs{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.edu-tabs{grid-template-columns:1fr 1fr}.poster-head{align-items:flex-start;flex-direction:column}.poster-head .btn{width:100%;text-align:center}.poster-frame img{max-height:none;width:100%}}
@@ -1662,9 +1720,47 @@ async function loadEducation(){
 }
 
 function renderEducationCenter(){
-  const buttons=$('educationButtons'), viewer=$('educationViewer');
-  if(!buttons||!viewer)return;
-  buttons.innerHTML=EDUCATION_POSTERS.map((x,i)=>`<button type="button" class="edu-tab ${i===0?'active':''} ${x.id?'':'disabled'}" ${x.id?`onclick="showEducationPoster(${i})"`:''}><span>${icons[i]||'📘'}</span><b>${i+1}. ${esc(x.title)}</b></button>`).join('');
+  const buttons = $('educationButtons');
+  const viewer = $('educationViewer');
+
+  if (!buttons || !viewer) return;
+
+  // =====================================================
+  // EDUKASI POSTER 1–10
+  // =====================================================
+
+  const posterButtons = EDUCATION_POSTERS.map((x, i) => `
+    <button
+      type="button"
+      class="edu-tab ${i === 0 ? 'active' : ''} ${x.id ? '' : 'disabled'}"
+      ${x.id ? `onclick="showEducationPoster(${i})"` : ''}
+    >
+      <span>${icons[i] || '📘'}</span>
+      <b>${i + 1}. ${esc(x.title)}</b>
+    </button>
+  `).join('');
+
+  // =====================================================
+  // VIDEO EDUKASI CODE GREEN
+  // =====================================================
+
+  const videoButton = `
+    <button
+      type="button"
+      class="edu-tab edu-video-tab"
+      onclick="showEducationVideo(this)"
+    >
+      <span>🎥</span>
+      <b>11. Video Code Green</b>
+    </button>
+  `;
+
+  // Gabungkan poster + video
+  buttons.innerHTML =
+    posterButtons +
+    videoButton;
+
+  // Tampilkan poster pertama
   showEducationPoster(0);
 }
 
@@ -1685,6 +1781,75 @@ function showEducationPoster(index){
   }
 }
 
+function showEducationVideo(buttonEl){
+
+  const viewer = $('educationViewer');
+
+  if (!viewer) return;
+
+  // =====================================================
+  // NONAKTIFKAN TAB LAIN
+  // =====================================================
+
+  document
+    .querySelectorAll('#educationButtons .edu-tab')
+    .forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+  // Aktifkan tombol video
+  if (buttonEl) {
+    buttonEl.classList.add('active');
+  }
+
+  // =====================================================
+  // GOOGLE DRIVE VIDEO
+  // =====================================================
+
+  const videoUrl =
+    'https://drive.google.com/file/d/1eI3BjoNgouvr2fR0--93nvY6q5YV76eU/preview';
+
+  viewer.innerHTML = `
+
+    <div class="education-video-container">
+
+      <div class="education-video-title">
+
+        <div>
+          <span class="education-video-icon">🎥</span>
+
+          <div>
+            <h3>Kesiapsiagaan Code Green</h3>
+
+            <p>
+              Penanganan Gempa Saat Proses Hemodialisis
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="education-video-frame">
+
+        <iframe
+          src="${videoUrl}"
+          title="Kesiapsiagaan Code Green di Ruang Hemodialisis"
+          allow="autoplay; fullscreen"
+          allowfullscreen>
+        </iframe>
+
+      </div>
+
+    </div>
+  `;
+
+  // Scroll ke video
+  viewer.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
+  
 async function loadReport(){
   const today=localDateInput();
   if($('r_start'))$('r_start').value=today; if($('r_end'))$('r_end').value=today;
