@@ -1087,7 +1087,7 @@ function renderUsers() {
 
 function fillPatientSelects() {
   const opts='<option value="">Pilih pasien...</option>'+PATIENTS.map(p=>`<option value="${esc(p.id_pasien)}">${esc(p.id_pasien)} — ${esc(p.nama_pasien)}</option>`).join('');
-  ['h_pasien','hdPatientFilter','historyPatientFilter','u_pasien'].forEach(id=>{if($(id))$(id).innerHTML=opts;});
+  ['','hdPatientFilter','historyPatientFilter','u_pasien'].forEach(id=>{if($(id))$(id).innerHTML=opts;});
   if(ME?.role==='pasien'){
     ['h_pasien','hdPatientFilter','historyPatientFilter'].forEach(id=>{if($(id)){ $(id).value=ME.id_pasien; $(id).disabled=true; }});
   }
@@ -1499,9 +1499,101 @@ async function submitHD(e){
 }
 
 async function loadHistory(){
-  const id=ME.role==='pasien'?ME.id_pasien:$('hdPatientFilter').value;
-  if(!id){$('hdTable').innerHTML='<div class="empty">Pilih pasien untuk melihat riwayat.</div>';return;}
-  try{const r=await server('getHDHistory',TOKEN,id);HISTORY=r?.data||[];$('hdTable').innerHTML=tableHD(HISTORY,false);renderHistoryProfile(r?.patient);$('historyTable').innerHTML=tableHD(HISTORY,false);if($('historyPatientFilter'))$('historyPatientFilter').value=id;}catch(e){toast(e?.message||'Gagal memuat riwayat.');}
+
+  const id = ME.role === 'pasien'
+    ? ME.id_pasien
+    : $('hdPatientFilter').value;
+
+  if(!id){
+    $('hdTable').innerHTML =
+      '<div class="empty">Pilih pasien untuk melihat riwayat.</div>';
+    return;
+  }
+
+  // =====================================================
+  // CACHE RIWAYAT HD DI BROWSER
+  // =====================================================
+
+  window.HD_HISTORY_CACHE =
+    window.HD_HISTORY_CACHE || {};
+
+  // Jika data pasien sudah pernah diambil,
+  // tampilkan langsung tanpa menunggu server
+  if(HD_HISTORY_CACHE[id]){
+
+    const cached = HD_HISTORY_CACHE[id];
+
+    HISTORY = cached.data || [];
+
+    $('hdTable').innerHTML =
+      tableHD(HISTORY, false);
+
+    renderHistoryProfile(cached.patient);
+
+    if($('historyTable')){
+      $('historyTable').innerHTML =
+        tableHD(HISTORY, false);
+    }
+
+    if($('historyPatientFilter')){
+      $('historyPatientFilter').value = id;
+    }
+
+    return;
+  }
+
+  // =====================================================
+  // PERTAMA KALI → AMBIL DARI SERVER
+  // =====================================================
+
+  try{
+
+    $('hdTable').innerHTML =
+      '<div class="empty">Memuat data pasien...</div>';
+
+    const r = await server(
+      'getHDHistory',
+      TOKEN,
+      id
+    );
+
+    // Simpan ke cache browser
+    HD_HISTORY_CACHE[id] = {
+      data: r?.data || [],
+      patient: r?.patient || null,
+      time: Date.now()
+    };
+
+    HISTORY = r?.data || [];
+
+    $('hdTable').innerHTML =
+      tableHD(HISTORY, false);
+
+    renderHistoryProfile(
+      r?.patient
+    );
+
+    if($('historyTable')){
+      $('historyTable').innerHTML =
+        tableHD(HISTORY, false);
+    }
+
+    if($('historyPatientFilter')){
+      $('historyPatientFilter').value = id;
+    }
+
+  }catch(e){
+
+    $('hdTable').innerHTML =
+      '<div class="empty">Gagal memuat data pasien.</div>';
+
+    toast(
+      e?.message ||
+      'Gagal memuat riwayat.'
+    );
+
+  }
+
 }
 
 async function loadHistoryFromHistory(){
