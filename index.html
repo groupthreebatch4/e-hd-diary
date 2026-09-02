@@ -1059,13 +1059,31 @@ function renderScheduleSummary(rows) {
   $('scheduleSummary').innerHTML=data.map(item=>`<div class="schedule-row"><div class="schedule-day"><span class="schedule-dot"></span><b>${esc(item.day||'-')}</b></div><div class="schedule-count">${Number(item.count||0)}<span> pasien</span></div></div>`).join('')+`<div class="schedule-total"><span>Total pasien aktif</span><b>${total}</b></div>`;
 }
 
-async function loadPatients() {
-  const r = await server('getPatients', TOKEN);
-  PATIENTS = r?.data || [];
-  renderPatients();
-  fillPatientSelects();
-}
+function loadPatients() {
+  google.script.run
+    .withSuccessHandler(function(data) {
 
+      window.PATIENTS = Array.isArray(data) ? data : [];
+
+      console.log('Data pasien berhasil dimuat:', window.PATIENTS.length);
+
+      fillPatientSelects();
+
+    })
+    .withFailureHandler(function(error) {
+
+      console.error('Gagal memuat pasien:', error);
+
+      window.PATIENTS = [];
+
+      showToast(
+        'Gagal memuat data pasien: ' + error.message,
+        'error'
+      );
+
+    })
+    .getPatients();
+}
 async function loadUsersSafe() {
   if (!['admin','perawat'].includes(ME.role)) { USERS=[]; return; }
   const r=await server('getUsers',TOKEN); USERS=r?.data||[]; renderUsers();
