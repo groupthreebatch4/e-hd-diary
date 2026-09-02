@@ -129,70 +129,6 @@
   color: #64748b;
   cursor: not-allowed;
 }
-
-/* =====================================================
-   DROPDOWN PASIEN + CHECKBOX
-   ===================================================== */
-
-.patient-select-row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  width: 100% !important;
-}
-
-.patient-select-row #h_pasien {
-  flex: 1 1 auto !important;
-  width: auto !important;
-  min-width: 0 !important;
-}
-
-.patient-all-check {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  white-space: nowrap !important;
-  cursor: pointer;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: #334155;
-}
-
-.patient-all-check input {
-  width: 17px !important;
-  height: 17px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.patient-filter-info {
-  margin-top: 6px;
-  font-size: 12px;
-  color: #64748b;
-}
-
-/* Tampilan HP */
-@media (max-width: 700px) {
-
-  .patient-select-row {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 8px !important;
-  }
-
-  .patient-select-row #h_pasien {
-    width: 100% !important;
-  }
-
-  .patient-all-check {
-    width: fit-content !important;
-  }
-
-} 
    
 /* =========================================================
    GRAFIK JUMLAH SESI HD PER HARI
@@ -411,6 +347,7 @@
 /* =========================================================
    ANGKA DI ATAS BATANG
    ========================================================= */
+
 .session-bar-value {
   position: absolute;
   bottom: calc(
@@ -475,8 +412,6 @@
 </style>
 </style>
 </head>
-
-   
 <body><div id="loginView" class="login">
   <div class="login-card">
     <div class="brand">
@@ -631,43 +566,11 @@
             <input id="h_tanggal" type="date" class="input" required>
           </div>
           <div class="field">
-  <label>Pasien *</label>
-
-  <div class="patient-select-row">
-
-    <select id="h_pasien" class="select" required>
-      <option value="">Pilih pasien...</option>
-    </select>
-
-    <label class="patient-all-check">
-      <input
-        type="checkbox"
-        id="h_tampilkan_semua_pasien"
-        onchange="toggleTampilkanSemuaPasien()"
-      >
-      <span>Tampilkan Semua Pasien</span>
-    </label>
-
-  </div>
-
-  <div id="h_pasien_filter_info" class="patient-filter-info">
-    Menampilkan pasien yang memiliki sesi HD hari ini.
-  </div>
-
-</div>
-  </div>
-
-  <div
-    id="h_pasien_filter_info"
-    style="
-      margin-top:6px;
-      font-size:12px;
-      color:#64748b;
-    "
-  >
-    Menampilkan pasien yang memiliki sesi HD hari ini.
-  </div>
-</div>
+            <label>Pasien *</label>
+            <select id="h_pasien" class="select" required>
+              <option value="">Pilih pasien...</option>
+            </select>
+          </div>
         </div>
         <div id="patientHDNote" class="patient-hd-note" style="display:none"></div>
         <div id="preSection" class="hd-col pre" style="border:1px solid #cfd8e3;border-radius:10px;overflow:hidden">
