@@ -52,56 +52,7 @@
 .report-empty{padding:35px;text-align:center;color:#7a8da2;font-size:12px}.report-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}.report-stat{padding:13px 15px;border-radius:14px;background:#f6faff;border:1px solid #e0edf8}.report-stat .n{font-size:20px;font-weight:900;color:#1677ff}.report-stat .l{font-size:10px;color:#6e8198;margin-top:3px}
 @media(max-width:950px){.report-filter-grid{grid-template-columns:1fr 1fr}.report-stat-row{grid-template-columns:1fr 1fr}}@media(max-width:600px){.report-filter-grid{grid-template-columns:1fr}.report-actions .btn{width:100%}}
 
-/* =====================================================
-   VIDEO RESPONSIVE - HP & DESKTOP
-   ===================================================== */
-.education-video-frame {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
-  overflow: hidden;
-}
 
-.education-video-frame iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  min-width: 100%;
-  min-height: 100%;
-  border: 0;
-  display: block;
-}
-
-@media (max-width: 600px) {
-  .education-video-container {
-    width: 100%;
-    margin-top: 14px;
-    border-radius: 14px;
-  }
-  .education-video-title {
-    padding: 14px 16px;
-  }
-  .education-video-title h3 {
-    font-size: 17px;
-    line-height: 1.3;
-  }
-  .education-video-title p {
-    font-size: 13px;
-    line-height: 1.4;
-  }
-  .education-video-frame {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    min-height: 0;
-  }
-  .education-video-frame iframe {
-    width: 100%;
-    height: 100%;
-  }
-
-}   
 /* ===== V4 EDUCATION POSTER ===== */
 .edu-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}.edu-tab{border:1px solid #dbe8f3;background:#fff;color:#23415e;border-radius:12px;padding:11px 9px;min-height:74px;text-align:left;display:flex;gap:8px;align-items:center;transition:.2s}.edu-tab span{font-size:21px}.edu-tab b{font-size:11px;line-height:1.35}.edu-tab:hover{border-color:#9bc8f2;transform:translateY(-1px)}.edu-tab.active{background:linear-gradient(135deg,#eaf5ff,#f5fbff);border:2px solid #1677ff;color:#0b63ce;box-shadow:0 6px 18px rgba(22,119,255,.12)}.edu-tab.disabled{opacity:.55;cursor:not-allowed}.education-viewer{background:#fff;border:1px solid #dce8f2;border-radius:18px;box-shadow:0 8px 28px rgba(31,70,112,.08);padding:16px}.poster-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}.poster-head h3{margin:0;font-size:18px;color:#17324d}.poster-head p{margin:5px 0 0;color:#71839a;font-size:12px}.poster-frame{display:flex;justify-content:center;align-items:center;background:#f5f8fb;border:1px solid #e1eaf2;border-radius:12px;padding:12px;min-height:320px;overflow:auto}.poster-frame img{display:block;width:auto;max-width:100%;height:auto;max-height:1100px;object-fit:contain;box-shadow:0 5px 20px rgba(0,0,0,.08);background:#fff}.edu-empty-poster{min-height:320px;width:100%;display:grid;place-items:center;text-align:center;padding:40px;color:#71839a}.edu-empty-poster h3{color:#294765;margin:8px 0}.edu-empty-poster p{margin:0;font-size:12px}.edu-disclaimer{margin-top:16px}.password-toggle{cursor:pointer}.password-toggle:focus{outline:2px solid #6ab0ff;outline-offset:1px}
 @media(max-width:1100px){.edu-tabs{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.edu-tabs{grid-template-columns:1fr 1fr}.poster-head{align-items:flex-start;flex-direction:column}.poster-head .btn{width:100%;text-align:center}.poster-frame img{max-height:none;width:100%}}
@@ -111,16 +62,21 @@
   display: flex;
   align-items: center;
   gap: 7px;
+
   margin-top: 8px;
+
   font-size: 13px;
   font-weight: 500;
+
   color: #64748b;
+
   cursor: pointer;
 }
 
 .bb-no-weigh input[type="checkbox"] {
   width: 17px;
   height: 17px;
+
   cursor: pointer;
 }
 
@@ -151,21 +107,29 @@
 
   /* 30-31 tanggal membutuhkan ruang */
   min-width: 760px;
+
   height: 300px;
+
   padding: 22px 15px 0 60px;
+
   box-sizing: border-box;
 }
 
 /* Judul sumbu Y */
 .session-chart-ytitle {
   position: absolute;
+
   left: 8px;
   top: 135px;
+
   transform: rotate(-90deg);
   transform-origin: center;
+
   font-size: 10px;
   font-weight: 600;
+
   color: #64748b;
+
   white-space: nowrap;
 }
 
@@ -204,6 +168,7 @@
 /* =========================================================
    SETIAP BATANG
    ========================================================= */
+
 .session-bar-item {
   flex: 1 0 18px;
   min-width: 18px;
@@ -216,9 +181,11 @@
   cursor: default;
 }
 
+
 /* =========================================================
    GRAFIK SESI HD - BAR CHART
    ========================================================= */
+
 .session-chart {
   width: 100%;
   height: 300px;
@@ -229,9 +196,11 @@
   background: #ffffff;
 }
 
+
 /* =========================================================
    AREA SUMBU Y
    ========================================================= */
+
 .session-chart-yaxis {
   position: absolute;
   left: 0;
@@ -241,7 +210,9 @@
   pointer-events: none;
 }
 
+
 /* Garis grid */
+
 .session-grid-line {
   position: absolute;
   left: 48px;
@@ -264,6 +235,7 @@
 /* =========================================================
    AREA PLOT
    ========================================================= */
+
 .session-chart-plot {
   width: 100%;
   height: 255px;
@@ -272,9 +244,11 @@
   box-sizing: border-box;
 }
 
+
 /* =========================================================
    KUMPULAN BATANG
    ========================================================= */
+
 .session-chart-bars {
   width: 100%;
   height: 100%;
@@ -284,7 +258,6 @@
   gap: 4px;
   box-sizing: border-box;
 }
-
 /* =========================================================
    ITEM BATANG
    ========================================================= */
@@ -302,6 +275,7 @@
 /* =========================================================
    WRAPPER BATANG
    ========================================================= */
+
 .session-bar-wrapper {
   width: 100%;
   height: calc(100% - 24px);
@@ -314,6 +288,7 @@
 /* =========================================================
    BATANG HIJAU CERAH
    ========================================================= */
+
 .session-bar {
   width: 65%;
   max-width: 26px;
@@ -338,11 +313,14 @@
     opacity .18s ease;
 }
 
+
 /* Hover */
+
 .session-bar-item:hover .session-bar {
   transform: translateY(-4px);
   opacity: .85;
 }
+
 
 /* =========================================================
    ANGKA DI ATAS BATANG
@@ -359,56 +337,85 @@
   white-space: nowrap;
 }
 
+
 /* =========================================================
    TANGGAL
    ========================================================= */
+
 .session-bar-label {
+
   height: 24px;
+
   padding-top: 7px;
+
   font-size: 9px;
+
   font-weight: 500;
+
   color: #64748b;
+
   text-align: center;
+
   white-space: nowrap;
 }
+
 
 /* =========================================================
    KETERANGAN
    ========================================================= */
+
 .session-chart-caption {
+
   text-align: center;
+
   margin-top: -3px;
+
   font-size: 11px;
+
   color: #64748b;
 }
+
 
 /* =========================================================
    RESPONSIVE
    ========================================================= */
+
 @media (max-width: 768px) {
+
   .session-chart {
+
     min-width: 680px;
+
     height: 290px;
+
     padding-left: 50px;
     padding-right: 10px;
   }
+
   .session-chart-plot {
+
     height: 245px;
   }
 
   .session-bar {
+
     width: 70%;
+
     max-width: 20px;
   }
 
   .session-bar-value {
+
     font-size: 8px;
   }
 
   .session-bar-label {
+
     font-size: 8px;
   }
+
 }
+
 </style>
 </style>
 </head>
@@ -573,6 +580,7 @@
           </div>
         </div>
         <div id="patientHDNote" class="patient-hd-note" style="display:none"></div>
+
         <div id="preSection" class="hd-col pre" style="border:1px solid #cfd8e3;border-radius:10px;overflow:hidden">
           <div class="hd-col-title">DATA PRE HD — DIISI SEBELUM TINDAKAN</div>
           <div class="hd-vital-field">
@@ -843,52 +851,21 @@ async function refreshAll() {
 
 async function loadDashboard() {
   const r = await server('getDashboard', TOKEN);
-
   const s = r?.stats || {};
-
   $('stTotal').textContent = s.totalPasien || 0;
   $('stAktif').textContent = s.pasienAktif || 0;
   $('stToday').textContent = s.jadwalHariIni || 0;
   $('stPostIncomplete').textContent = s.postBelumLengkap || 0;
 
-  // =====================================================
-  // AKTIVITAS HEMODIALISIS HARI INI
-  // Hanya menampilkan sesi HD pada tanggal hari berjalan
-  // =====================================================
+  // Simpan sesi terbaru ke HISTORY agar tombol "Lengkapi Post"
+  // pada Dashboard dapat menemukan baris berdasarkan id_hd.
+  HISTORY = Array.isArray(r?.recentHD) ? r.recentHD : [];
+  $('recentHD').innerHTML = tableHD(HISTORY, true);
 
-  const allRecentHD =
-    Array.isArray(r?.recentHD)
-      ? r.recentHD
-      : [];
-
-  const today =
-    localDateInput();
-
-  const todayHD =
-    allRecentHD.filter(function(x) {
-      return toInputDate(x.tanggal_hd) === today;
-    });
-
-  // Simpan data hari ini ke HISTORY
-  // agar tombol "Lengkapi Post" dapat digunakan
-  HISTORY = todayHD;
-
-  // Tampilkan aktivitas HD hari ini
-  $('recentHD').innerHTML =
-    tableHD(HISTORY, true);
-
-  // =====================================================
-  // GRAFIK & JADWAL
-  // =====================================================
-
-  renderSessionMonthChart(
-    r?.sessionDaily || []
-  );
-
-  renderScheduleSummary(
-    r?.scheduleSummary || []
-  );
+  renderSessionMonthChart(r?.sessionDaily || []);
+  renderScheduleSummary(r?.scheduleSummary || []);
 }
+
 function renderSessionMonthChart(rows) {
   const box = $('sessionMonthChart');
   if (!box) return;
@@ -1685,50 +1662,12 @@ async function loadEducation(){
 }
 
 function renderEducationCenter(){
-  const buttons = $('educationButtons');
-  const viewer = $('educationViewer');
-
-  if (!buttons || !viewer) return;
-
-  // =====================================================
-  // EDUKASI POSTER 1–10
-  // =====================================================
-
-  const posterButtons = EDUCATION_POSTERS.map((x, i) => `
-    <button
-      type="button"
-      class="edu-tab ${i === 0 ? 'active' : ''} ${x.id ? '' : 'disabled'}"
-      ${x.id ? `onclick="showEducationPoster(${i})"` : ''}
-    >
-      <span>${icons[i] || '📘'}</span>
-      <b>${i + 1}. ${esc(x.title)}</b>
-    </button>
-  `).join('');
-
-  // =====================================================
-  // VIDEO EDUKASI CODE GREEN
-  // =====================================================
-
-  const videoButton = `
-    <button
-      type="button"
-      class="edu-tab edu-video-tab"
-      onclick="showEducationVideo(this)"
-    >
-      <span>🎥</span>
-      <b>11. Video Kesiapsiagaan Code Green Di Ruang HD</b>
-    </button>
-  `;
-
-  // Gabungkan poster + video
-  buttons.innerHTML =
-    posterButtons +
-    videoButton;
-
-  // Tampilkan poster pertama
+  const buttons=$('educationButtons'), viewer=$('educationViewer');
+  if(!buttons||!viewer)return;
+  buttons.innerHTML=EDUCATION_POSTERS.map((x,i)=>`<button type="button" class="edu-tab ${i===0?'active':''} ${x.id?'':'disabled'}" ${x.id?`onclick="showEducationPoster(${i})"`:''}><span>${icons[i]||'📘'}</span><b>${i+1}. ${esc(x.title)}</b></button>`).join('');
   showEducationPoster(0);
 }
-   
+
 function showEducationPoster(index){
   const x=EDUCATION_POSTERS[index]; if(!x)return;
   document.querySelectorAll('.edu-tab').forEach((b,i)=>b.classList.toggle('active',i===index));
@@ -1745,57 +1684,7 @@ function showEducationPoster(index){
     },{once:true});
   }
 }
-function showEducationVideo(buttonEl){
-  const viewer = $('educationViewer');
-  if (!viewer) return;
-  // =====================================================
-  // NONAKTIFKAN TAB LAIN
-  // =====================================================
-  document
-    .querySelectorAll('#educationButtons .edu-tab')
-    .forEach(btn => {
-      btn.classList.remove('active');
-    });
-  // Aktifkan tombol video
-  if (buttonEl) {
-    buttonEl.classList.add('active');
-  }
-  // =====================================================
-  // GOOGLE DRIVE VIDEO
-  // =====================================================
-  const videoUrl =
-    'https://drive.google.com/file/d/1eI3BjoNgouvr2fR0--93nvY6q5YV76eU/preview';
-  viewer.innerHTML = `
-    <div class="education-video-container">
-      <div class="education-video-title">
-        <div>
-          <span class="education-video-icon">🎥</span>
-          <div>
-            <h3>Kesiapsiagaan Code Green di Ruang HD</h3>
-            <p>
-              Penanganan Gempa Saat Proses Hemodialisis
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="education-video-frame">
-        <iframe
-          src="${videoUrl}"
-          title="Kesiapsiagaan Code Green di Ruang Hemodialisis"
-          allow="autoplay; fullscreen"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-  `;
 
-  // Scroll ke video
-  viewer.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-}
-   
 async function loadReport(){
   const today=localDateInput();
   if($('r_start'))$('r_start').value=today; if($('r_end'))$('r_end').value=today;
